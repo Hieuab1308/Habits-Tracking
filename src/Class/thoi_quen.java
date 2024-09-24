@@ -16,7 +16,7 @@ public class thoi_quen {
     private String tinhtrang;
     private int muctieuhangngay;
     private int theodoitiendo;
-
+    private int egodz;
     public thoi_quen() {
     }
 

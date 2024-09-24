@@ -1,4 +1,4 @@
-# app_theo_doi_thoi_quen_ca_nhan# App theo dõi thói quen (task management)
+# App_theo_doi_thoi_quen_ca_nhan# App theo dõi thói quen (task management)
 ## Thành viên nhóm
 * Đỗ Nguyễn Minh Phương - 22010222
 * Đoàn Trung Đức - 22010153
