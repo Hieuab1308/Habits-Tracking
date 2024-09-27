@@ -4,11 +4,13 @@
  */
 package Class;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Thanh Nam
  */
-public class thoi_quen {
+public class thoi_quen implements Serializable {
     private  String name;
     private int id;
     private String mota;
