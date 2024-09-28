@@ -5,6 +5,7 @@
 package Class;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  *
@@ -12,24 +13,17 @@ import java.io.Serializable;
  */
 public class thoi_quen implements Serializable {
     private  String name;
-    private int id;
-    private String mota;
-    private String ngaybatdau;
-    private String tinhtrang;
-    private int muctieuhangngay;
-    private int theodoitiendo;
-    private int egodz;
+    private Date ngaybatdau;
+    private Date ngayketthuc;
+
     public thoi_quen() {
     }
 
-    public thoi_quen(String name, int id, String mota, String ngaybatdau, String tinhtrang, int muctieuhangngay, int theodoitiendo) {
+    public thoi_quen(String name, Date ngaybatdau, Date ngayketthuc) {
         this.name = name;
-        this.id = id;
-        this.mota = mota;
         this.ngaybatdau = ngaybatdau;
-        this.tinhtrang = tinhtrang;
-        this.muctieuhangngay = muctieuhangngay;
-        this.theodoitiendo = theodoitiendo;
+        this.ngayketthuc = ngayketthuc;
+
     }
 
     public String getName() {
@@ -40,51 +34,19 @@ public class thoi_quen implements Serializable {
         this.name = name;
     }
 
-    public int getId(){
-        return id;
-    }
 
-    public void setId(int id){
-        this.id = id;
-    }
-
-    public String getMota() {
-        return mota;
-    }
-
-    public void setMota(String mota) {
-        this.mota = mota;
-    }
-
-    public String getNgaybatdau() {
+    public Date getNgaybatdau() {
         return ngaybatdau;
     }
 
-    public void setNgaybatdau(String ngaybatdau) {
+    public void setNgaybatdau(Date ngaybatdau) {
         this.ngaybatdau = ngaybatdau;
     }
-
-    public String getTinhtrang() {
-        return tinhtrang;
+    public Date getNgayketthuc() {
+        return ngayketthuc;
     }
 
-    public void setTinhtrang(String tinhtrang) {
-        this.tinhtrang = tinhtrang;
-    }
-
-    public int getMuctieuhangngay() {
-        return muctieuhangngay;
-    }
-
-    public void setMuctieuhangngay(int muctieuhangngay) {
-        this.muctieuhangngay = muctieuhangngay;
-    }
-
-    public int getTheodoitiendo() {
-        return theodoitiendo;
-    }
-
-    public void setTheodoitiendo(int theodoitiendo) {
-        this.theodoitiendo = theodoitiendo;
+    public void setNgayketthuc(Date ngayketthuc){
+        this.ngayketthuc = ngayketthuc;
     }
 }
