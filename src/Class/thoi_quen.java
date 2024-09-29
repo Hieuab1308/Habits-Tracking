@@ -12,20 +12,28 @@ import java.util.Date;
  * @author Thanh Nam
  */
 public class thoi_quen implements Serializable {
+    private String id;
     private  String name;
     private Date ngaybatdau;
     private Date ngayketthuc;
-
+    
     public thoi_quen() {
     }
 
-    public thoi_quen(String name, Date ngaybatdau, Date ngayketthuc) {
+    public thoi_quen(String id,String name, Date ngaybatdau, Date ngayketthuc) {
+        this.id = id;
         this.name = name;
         this.ngaybatdau = ngaybatdau;
         this.ngayketthuc = ngayketthuc;
 
     }
-
+    
+    public String getId(){
+        return id;
+    }
+    public void setId(String id){
+        this.id = id;
+    }
     public String getName() {
         return name;
     }

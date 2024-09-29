@@ -10,6 +10,8 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -87,7 +89,7 @@ public class main extends javax.swing.JFrame {
         model.setNumRows(0);
         int n = 1;
         for(thoi_quen x : thoiquen){
-            model.addRow(new Object[]{n++,x.getName(),x.getNgaybatdau(),x.getNgayketthuc()});
+            model.addRow(new Object[]{n++,x.getId(),x.getName(),x.getNgaybatdau(),x.getNgayketthuc()});
         }
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -362,50 +364,33 @@ public class main extends javax.swing.JFrame {
         jP1.setBackground(new java.awt.Color(224, 224, 224));
         jP1.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
         jP1.setPreferredSize(new java.awt.Dimension(1875, 534));
-        jP1.setLayout(null);
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel7.setText("Mã thói quen:");
-        jP1.add(jLabel7);
-        jLabel7.setBounds(6, 96, 97, 31);
 
         jLabel8.setFont(new java.awt.Font("Segoe UI Symbol", 0, 14)); // NOI18N
         jLabel8.setText("Tên thói quen:");
-        jP1.add(jLabel8);
-        jLabel8.setBounds(6, 145, 97, 26);
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel9.setText("Mô tả:");
-        jP1.add(jLabel9);
-        jLabel9.setBounds(6, 198, 97, 26);
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel10.setText("Ngày bắt đầu:");
-        jP1.add(jLabel10);
-        jLabel10.setBounds(6, 254, 97, 26);
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel11.setText("Ngày kết thúc:");
-        jP1.add(jLabel11);
-        jLabel11.setBounds(6, 311, 97, 34);
 
         mtq_text.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mtq_textActionPerformed(evt);
             }
         });
-        jP1.add(mtq_text);
-        mtq_text.setBounds(159, 96, 205, 30);
 
         ttq_text.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ttq_textActionPerformed(evt);
             }
         });
-        jP1.add(ttq_text);
-        ttq_text.setBounds(159, 145, 205, 30);
-        jP1.add(mota_text);
-        mota_text.setBounds(159, 197, 205, 30);
 
         nbd_date.addAncestorListener(new javax.swing.event.AncestorListener() {
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
@@ -416,10 +401,16 @@ public class main extends javax.swing.JFrame {
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
         });
-        jP1.add(nbd_date);
-        nbd_date.setBounds(159, 254, 205, 30);
-        jP1.add(nkt_date);
-        nkt_date.setBounds(159, 315, 205, 30);
+
+        nkt_date.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                nkt_dateAncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
 
         btn_add.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btn_add.setText("Thêm");
@@ -428,8 +419,6 @@ public class main extends javax.swing.JFrame {
                 btn_addActionPerformed(evt);
             }
         });
-        jP1.add(btn_add);
-        btn_add.setBounds(131, 411, 97, 30);
 
         btn_save.setText("Lưu");
         btn_save.addActionListener(new java.awt.event.ActionListener() {
@@ -437,8 +426,6 @@ public class main extends javax.swing.JFrame {
                 btn_saveActionPerformed(evt);
             }
         });
-        jP1.add(btn_save);
-        btn_save.setBounds(50, 370, 100, 30);
 
         btn_cancel.setText("Huỷ");
         btn_cancel.addActionListener(new java.awt.event.ActionListener() {
@@ -446,22 +433,20 @@ public class main extends javax.swing.JFrame {
                 btn_cancelActionPerformed(evt);
             }
         });
-        jP1.add(btn_cancel);
-        btn_cancel.setBounds(210, 370, 97, 30);
 
         table_thoiquen.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "STT", "Tên thói quen", "Ngày bắt đầu", "Ngày kết thúc"
+                "STT", "Mã thói quen", "Tên thói quen", "Ngày bắt đầu", "Ngày kết thúc"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -475,18 +460,11 @@ public class main extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(table_thoiquen);
 
-        jP1.add(jScrollPane1);
-        jScrollPane1.setBounds(372, 0, 598, 625);
-
         label_add.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         label_add.setText("Thêm thói quen:");
-        jP1.add(label_add);
-        label_add.setBounds(6, 37, 145, 47);
 
         label_fix.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         label_fix.setText("Sửa thói quen:");
-        jP1.add(label_fix);
-        label_fix.setBounds(10, 50, 158, 25);
 
         btn_savefix.setText("Lưu");
         btn_savefix.addActionListener(new java.awt.event.ActionListener() {
@@ -494,8 +472,93 @@ public class main extends javax.swing.JFrame {
                 btn_savefixActionPerformed(evt);
             }
         });
-        jP1.add(btn_savefix);
-        btn_savefix.setBounds(50, 370, 100, 30);
+
+        javax.swing.GroupLayout jP1Layout = new javax.swing.GroupLayout(jP1);
+        jP1.setLayout(jP1Layout);
+        jP1Layout.setHorizontalGroup(
+            jP1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jP1Layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addGroup(jP1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jP1Layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(label_fix, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(label_add, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jP1Layout.createSequentialGroup()
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(56, 56, 56)
+                        .addComponent(mtq_text, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jP1Layout.createSequentialGroup()
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(56, 56, 56)
+                        .addComponent(ttq_text, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jP1Layout.createSequentialGroup()
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(56, 56, 56)
+                        .addComponent(mota_text, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jP1Layout.createSequentialGroup()
+                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(56, 56, 56)
+                        .addComponent(nbd_date, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jP1Layout.createSequentialGroup()
+                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(56, 56, 56)
+                        .addComponent(nkt_date, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jP1Layout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addGroup(jP1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btn_save, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btn_savefix, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(60, 60, 60)
+                        .addComponent(btn_cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jP1Layout.createSequentialGroup()
+                        .addGap(125, 125, 125)
+                        .addComponent(btn_add, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(8, 8, 8)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 598, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jP1Layout.setVerticalGroup(
+            jP1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jP1Layout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addGroup(jP1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jP1Layout.createSequentialGroup()
+                        .addGap(13, 13, 13)
+                        .addComponent(label_fix))
+                    .addComponent(label_add, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
+                .addGroup(jP1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(mtq_text, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jP1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ttq_text, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(22, 22, 22)
+                .addGroup(jP1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jP1Layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(mota_text, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
+                .addGroup(jP1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nbd_date, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
+                .addGroup(jP1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jP1Layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(nkt_date, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(25, 25, 25)
+                .addGroup(jP1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_save, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_savefix, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(11, 11, 11)
+                .addComponent(btn_add, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 625, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
 
         jPanel2.add(jP1);
 
@@ -759,6 +822,9 @@ public class main extends javax.swing.JFrame {
 
     private void nbd_dateAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_nbd_dateAncestorAdded
         // TODO add your handling code here:
+        nbd_date.setDateFormatString("dd/MM/yyyy");
+        
+        
     }//GEN-LAST:event_nbd_dateAncestorAdded
 
     private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
@@ -778,30 +844,44 @@ public class main extends javax.swing.JFrame {
     private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
         // TODO add your handling code here:
         // Lấy thông tin từ textjield
+        String id = mtq_text.getText();
         String name = ttq_text.getText();
         Date ngaybatdau = nbd_date.getDate();
         Date ngayketthuc = nkt_date.getDate();
-        boolean checkname = true;
+        boolean checkid = true;
         // add thói quen
-        // check xem đã tồn tại thói quen chưa
+        // check xem đã tồn tại mã thói quen chưa
         for(thoi_quen x : thoiquen){
-            if(x.getName().equals(name)){
-                checkname = false;
+            if(x.getName().equals(id)){
+                checkid = false;
                 break;
             }
         }
-        if(name.length()==0){
-            JOptionPane.showMessageDialog(rootPane, "Tên không được để trống");
+        if(name.length()==0 || id.length()==0){
+            JOptionPane.showMessageDialog(rootPane, "Không được để trống thông tin");
         }
-        else if(!checkname){
-            JOptionPane.showMessageDialog(rootPane, "Thói quen đã tồn tại");
+        else if(id.length()!=4){
+            JOptionPane.showMessageDialog(rootPane, "Mã thói quen phải có 4 kí tự");
+        }
+        else if(!checkid){
+            JOptionPane.showMessageDialog(rootPane, "Mã thói quen đã tồn tại");
         }else{
-            thoiquen.add(new thoi_quen(name,ngaybatdau,ngayketthuc));
+            thoiquen.add(new thoi_quen(id,name,ngaybatdau,ngayketthuc));
             ViewTable();
+
             label_add.setVisible(false);
             btn_save.setVisible(false);
             btn_cancel.setVisible(false);
             btn_add.setVisible(true);
+            
+            mtq_text.setText("");
+            ttq_text.setText("");
+            nbd_date.setDate(null);
+            nkt_date.setDate(null);
+            mtq_text.setEditable(false);
+            ttq_text.setEditable(false);
+            nbd_date.setEnabled(false);
+            nkt_date.setEnabled(false);
         }
         // Sửa thói quen
         
@@ -829,15 +909,23 @@ public class main extends javax.swing.JFrame {
         button1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 stt = (int) table_thoiquen.getValueAt(pos,0) -1;
-                ttq_text.setText(table_thoiquen.getValueAt(pos,1).toString());
-                nbd_date.setDate((Date) table_thoiquen.getValueAt(pos,2));
-                nkt_date.setDate((Date) table_thoiquen.getValueAt(pos,3));
+                mtq_text.setText(table_thoiquen.getValueAt(pos,1).toString());
+                ttq_text.setText(table_thoiquen.getValueAt(pos,2).toString());
+                nbd_date.setDate((Date) table_thoiquen.getValueAt(pos,3));
+                nkt_date.setDate((Date) table_thoiquen.getValueAt(pos,4));
                 dialog_ego.setVisible(false);
                 label_fix.setVisible(true);
+                label_add.setVisible(false);
+                
                 btn_savefix.setVisible(true);
                 btn_cancel.setVisible(true);
                 btn_add.setVisible(false);
                 btn_save.setVisible(false);
+               
+                mtq_text.setEditable(true);
+                ttq_text.setEditable(true);
+                nbd_date.setEnabled(true);
+                nkt_date.setEnabled(true);
                 }
         });
         //button Xoá
@@ -852,14 +940,21 @@ public class main extends javax.swing.JFrame {
                 //Xoá trong list và view lại bảng
                 if (response == JOptionPane.YES_OPTION) {
                     JOptionPane.showMessageDialog(dialog_ego, "Đã xóa!", "Thông Báo", JOptionPane.INFORMATION_MESSAGE);
-                    String tenthoiquen = table_thoiquen.getValueAt(pos,1).toString();
+                    String mathoiquen = table_thoiquen.getValueAt(pos,1).toString();
                     for(thoi_quen x : thoiquen){
-                        if(x.getName().equals(tenthoiquen)){
+                        if(x.getId().equals(mathoiquen)){
                             thoiquen.remove(x);
                             break;
                         } 
                     }
                     dialog_ego.setVisible(false);
+                    ttq_text.setText("");
+                    nbd_date.setDate(null);
+                    nkt_date.setDate(null);
+                    mtq_text.setEditable(false);
+                    ttq_text.setEditable(false);
+                    nbd_date.setEnabled(false);
+                    nkt_date.setEnabled(false);
                     ViewTable();
                 } else {
                     dialog_ego.setVisible(false);
@@ -881,10 +976,19 @@ public class main extends javax.swing.JFrame {
         label_add.setVisible(false);
         label_fix.setVisible(false);
         btn_savefix.setVisible(false);
+        
+        ttq_text.setText("");
+        nbd_date.setDate(null);
+        nkt_date.setDate(null);
+        mtq_text.setEditable(false);
+        ttq_text.setEditable(false);
+        nbd_date.setEnabled(false);
+        nkt_date.setEnabled(false);
     }//GEN-LAST:event_btn_cancelActionPerformed
 
     private void btn_savefixActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_savefixActionPerformed
         // TODO add your handling code here:
+        String id = mtq_text.getText();
         String name = ttq_text.getText();
         Date ngaybatdau = nbd_date.getDate();
         Date ngayketthuc = nkt_date.getDate();
@@ -893,26 +997,48 @@ public class main extends javax.swing.JFrame {
             if(i == stt){
                 continue;
             }
-            if(thoiquen.get(i).getName().equals(name)){
-                JOptionPane.showMessageDialog(rootPane, "Thói quen đã tồn tại");
+            if(thoiquen.get(i).getId().equals(id)){
+                JOptionPane.showMessageDialog(rootPane, "Mã thói quen đã tồn tại");
                 check_habit = false;
                 break;
             }
         }
-        if(name.length()==0){
+        if(name.length()==0||id.length()==0){
             JOptionPane.showMessageDialog(rootPane, "Không được để trống");
-        }else if(check_habit){
+        }
+        else if(id.length()!=4){
+           JOptionPane.showMessageDialog(rootPane, "Mã thói quen phải có 4 kí tự");
+        }
+        else if(check_habit){
+            thoiquen.get(stt).setId(id);
             thoiquen.get(stt).setName(name);
             thoiquen.get(stt).setNgaybatdau(ngaybatdau);
             thoiquen.get(stt).setNgayketthuc(ngayketthuc);
             ViewTable();
+            
             btn_add.setVisible(true);
             btn_save.setVisible(false);
             btn_savefix.setVisible(false);
             btn_cancel.setVisible(false);
             label_fix.setVisible(false);
+            
+            ttq_text.setText("");
+            mtq_text.setText("");
+            nbd_date.setDate(null);
+            nkt_date.setDate(null);
+            mtq_text.setEditable(false);
+            ttq_text.setEditable(false);
+            nbd_date.setEnabled(false);
+            nkt_date.setEnabled(false);
         }     
     }//GEN-LAST:event_btn_savefixActionPerformed
+
+    private void nkt_dateAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_nkt_dateAncestorAdded
+        // TODO add your handling code here:
+        nkt_date.setDateFormatString("dd/MM/yyyy");
+        JTextField textField = (JTextField) nkt_date.getDateEditor().getUiComponent();
+        String date = textField.getText();
+    }//GEN-LAST:event_nkt_dateAncestorAdded
 
    
     
