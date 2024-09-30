@@ -16,26 +16,25 @@ public class admin implements Serializable {
         this.matkhau = matkhau;
         this.role = role;
     }
-}
-
-public String getId() {
-    return id;
-}
-public void setId(String id) {
-    this.id = id;
-} 
-public String getEmail() {
-    return email;
-}
-public void setEmail(String email) {
-    this.email = email;
-}
-public String getmatkhau() {
-    return matkhau;
-}
-public void setPass(String matkhau) {
-    this.matkhau = matkhau;
-}
-public boolean getRole(){
-    return role;
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    } 
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    public String getmatkhau() {
+        return matkhau;
+    }
+    public void setPass(String matkhau) {
+        this.matkhau = matkhau;
+    }
+    public boolean getRole(){
+        return role;
+    }
 }
