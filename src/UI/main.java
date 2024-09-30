@@ -1,6 +1,4 @@
-
 package UI;
-
 
 import java.util.List;
 import java.util.ArrayList;
@@ -27,14 +25,11 @@ import manageSQL.ListThoiQuen;
 import manageSQL.thoiquendelete;
 import manageSQL.thoiquenedit;
 
-
 public class main extends javax.swing.JFrame {
-    
 
     /**
      * Creates new form main
      */
-        
     public main(user userLogin) throws IOException, ClassNotFoundException {
         initComponents();
         setLocationRelativeTo(null);
@@ -42,45 +37,44 @@ public class main extends javax.swing.JFrame {
         jP2.setVisible(false);
         jP3.setVisible(false);
         jP4.setVisible(false);
-        
+
         // set nhãn và textfield khồng được dùng khi mới khởi tạo
         label_add.setVisible(false);
         label_fix.setVisible(false);
-        
-        mtq_text.setEditable(false); 
+
+        mtq_text.setEditable(false);
         ttq_text.setEditable(false);
         mota_text.setEditable(false);
         nbd_date.setEnabled(false);
         nkt_date.setEnabled(false);
-        
+
         btn_cancel.setVisible(false);
         btn_save.setVisible(false);
         btn_savefix.setVisible(false);
-        
+
     }
-    
-    private void clock(){
-        new Thread(){
-            public void run(){
-                while(true){
+
+    private void clock() {
+        new Thread() {
+            public void run() {
+                while (true) {
                     Calendar ca = new GregorianCalendar();
                     int hour = ca.get(Calendar.HOUR);
                     int minu = ca.get(Calendar.MINUTE);
                     int sec = ca.get(Calendar.SECOND);
                     int AM_PM = ca.get(Calendar.AM_PM);
-                    
+
                     String day_night;
-                    if(AM_PM ==1){
+                    if (AM_PM == 1) {
                         day_night = "PM";
-                    }else{
+                    } else {
                         day_night = "AM";
                     }
-                    jPclock.setText(hour + ":" + minu + ":" + sec +""+ day_night);
+                    jPclock.setText(hour + ":" + minu + ":" + sec + "" + day_night);
                 }
             }
         }.start();
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -91,32 +85,32 @@ public class main extends javax.swing.JFrame {
     List<thoi_quen> thoiquen = ListThoiQuen.getAllThoiQuen();
     public static int stt = -1;
 //Table thói quen
-    
-    public void Viewtable_thoiquen(){
+
+    public void Viewtable_thoiquen() {
 //        DefaultTableModel model = (DefaultTableModel) this.table_thoiquen.getModel();
 //        model.setNumRows(0);
 //        int n = 1;
 //        for(thoi_quen x : thoiquen){
 //            model.addRow(new Object[]{n++,x.getId(),x.getName(),x.getNgaybatdau(),x.getNgayketthuc()});
 //        }
-            DefaultTableModel model = (DefaultTableModel) this.table_thoiquen.getModel();
-            model.setNumRows(0); // Xóa tất cả các hàng trong bảng
-            int n = 1;
-            for (thoi_quen tq : thoiquen) {
-                model.addRow(new Object[]{n++, tq.getId(), tq.getName(), tq.getNgaybatdau(), tq.getNgayketthuc()});
-            }
+        DefaultTableModel model = (DefaultTableModel) this.table_thoiquen.getModel();
+        model.setNumRows(0); // Xóa tất cả các hàng trong bảng
+        int n = 1;
+        for (thoi_quen tq : thoiquen) {
+            model.addRow(new Object[]{n++, tq.getId(), tq.getName(), tq.getNgaybatdau(), tq.getNgayketthuc()});
+        }
     }
-    
+
     // load lại dữ liệu vào bảng
     private void loadThoiQuenData() {
-    List<thoi_quen> thoiQuenList = ListThoiQuen.getAllThoiQuen(); // Gọi phương thức từ ListThoiQuen
-    DefaultTableModel model = (DefaultTableModel) this.table_thoiquen.getModel(); // Giả sử bạn có một JTable tên là table_thoiquen
-    model.setNumRows(0); // Xóa dữ liệu cũ
-    int n = 1; // Số thứ tự
-    for (thoi_quen tq : thoiQuenList) {
-        model.addRow(new Object[]{n++, tq.getId(),tq.getName(),tq.getNgaybatdau(),tq.getNgayketthuc()});
+        List<thoi_quen> thoiQuenList = ListThoiQuen.getAllThoiQuen(); // Gọi phương thức từ ListThoiQuen
+        DefaultTableModel model = (DefaultTableModel) this.table_thoiquen.getModel(); // Giả sử bạn có một JTable tên là table_thoiquen
+        model.setNumRows(0); // Xóa dữ liệu cũ
+        int n = 1; // Số thứ tự
+        for (thoi_quen tq : thoiQuenList) {
+            model.addRow(new Object[]{n++, tq.getId(), tq.getName(), tq.getNgaybatdau(), tq.getNgayketthuc()});
+        }
     }
-}
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -762,8 +756,8 @@ public class main extends javax.swing.JFrame {
         jP4.setVisible(false);
         Viewtable_thoiquen();
 //        tab5.setVisible(false);
-        
-        
+
+
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
@@ -773,47 +767,45 @@ public class main extends javax.swing.JFrame {
         jP3.setVisible(false);
         jP4.setVisible(false);
         clock();
-       
+
 //        tab5.setVisible(false);
-        
+
     }//GEN-LAST:event_jLabel6MouseClicked
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-         jP1.setVisible(false);
+        jP1.setVisible(false);
         jP2.setVisible(false);
         jP3.setVisible(true);
         jP4.setVisible(false);
-      
+
 //        tab5.setVisible(false);
-        
-        
         // TODO add your handling code here:
     }//GEN-LAST:event_jLabel3MouseClicked
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
         // TODO add your handling code here:
-       jP1.setVisible(false);
+        jP1.setVisible(false);
         jP2.setVisible(false);
         jP3.setVisible(false);
         jP4.setVisible(true);
 //        tab5.setVisible(false);
-        
+
     }//GEN-LAST:event_jLabel5MouseClicked
 
     private void tab1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tab1MouseClicked
         // TODO add your handling code here:
-        
+
         jP1.setVisible(true);
         jP2.setVisible(false);
         jP3.setVisible(false);
         jP4.setVisible(false);
 //        tab5.setVisible(false);
-        
+
     }//GEN-LAST:event_tab1MouseClicked
 
     private void tab2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tab2MouseClicked
         // TODO add your handling code here:
-        
+
         jP1.setVisible(false);
         jP2.setVisible(true);
         jP3.setVisible(false);
@@ -864,19 +856,19 @@ public class main extends javax.swing.JFrame {
     private void nbd_dateAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_nbd_dateAncestorAdded
         // TODO add your handling code here:
         nbd_date.setDateFormatString("dd/MM/yyyy");
-        
-        
+
+
     }//GEN-LAST:event_nbd_dateAncestorAdded
 
     private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
         // TODO add your handling code here:
         label_add.setVisible(true);
-        mtq_text.setEditable(true); 
+        mtq_text.setEditable(true);
         ttq_text.setEditable(true);
         mota_text.setEditable(true);
         nbd_date.setEnabled(true);
         nkt_date.setEnabled(true);
-        
+
         btn_save.setVisible(true);
         btn_cancel.setVisible(true);
         btn_add.setVisible(false);
@@ -886,96 +878,57 @@ public class main extends javax.swing.JFrame {
     private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
         // TODO add your handling code here:
         // Lấy thông tin từ textjield
-//        String id = mtq_text.getText();
-//        String name = ttq_text.getText();
-//        Date ngaybatdau = nbd_date.getDate();
-//        Date ngayketthuc = nkt_date.getDate();
-//        boolean checkid = true;
-//        // add thói quen
-//        // check xem đã tồn tại mã thói quen chưa
-//        for(thoi_quen x : thoiquen){
-//            if(x.getId().equals(id)){
-//                checkid = false;
-//                break;
-//            }
-//        }
-//        if(name.length()==0 || id.length()==0){
-//            JOptionPane.showMessageDialog(rootPane, "Không được để trống thông tin");
-//        }
-//        else if(id.length()!=4){
-//            JOptionPane.showMessageDialog(rootPane, "Mã thói quen phải có 4 kí tự");
-//        }
-//        else if(!checkid){
-//            JOptionPane.showMessageDialog(rootPane, "Mã thói quen đã tồn tại");
-//        }else{
-//            thoiquenadd add = new thoiquenadd();
-//            add.addThoiQuen(id, name, ngaybatdau, ngayketthuc);
-//            java.sql.Date sqlNgayBatDau = new java.sql.Date(ngaybatdau.getTime());
-//    java.sql.Date sqlNgayKetThuc = new java.sql.Date(ngayketthuc.getTime());
-//
-//    // Gọi phương thức addThoiQuen chính thức mà bạn đã triển khai
-//            add.addThoiQuen(id, name, sqlNgayBatDau, sqlNgayKetThuc);
-//            ViewTable();
-//
-//            label_add.setVisible(false);
-//            btn_save.setVisible(false);
-//            btn_cancel.setVisible(false);
-//            btn_add.setVisible(true);
-//            
-//            mtq_text.setText("");
-//            ttq_text.setText("");
-//            nbd_date.setDate(null);
-//            nkt_date.setDate(null);
-//            mtq_text.setEditable(false);
-//            ttq_text.setEditable(false);
-//            nbd_date.setEnabled(false);
-//            nkt_date.setEnabled(false);
-//        }
-        // Sửa thói quen
-        
-        // Lấy thông tin từ textfield
-    String id = mtq_text.getText();
-String name = ttq_text.getText();
-Date ngaybatdau = nbd_date.getDate();
-Date ngayketthuc = nkt_date.getDate();
+        String id = mtq_text.getText();
+        String name = ttq_text.getText();
+        Date ngaybatdau = nbd_date.getDate();
+        Date ngayketthuc = nkt_date.getDate();
+        boolean checkid = true;
+        // add thói quen
+        // check xem đã tồn tại mã thói quen chưa
+        for (thoi_quen x : thoiquen) {
+            if (x.getId().equals(id)) {
+                checkid = false;
+                break;
+            }
+        }
+        if (name.length() == 0 || id.length() == 0) {
+            JOptionPane.showMessageDialog(rootPane, "Không được để trống thông tin");
+        } else if (id.length() != 4) {
+            JOptionPane.showMessageDialog(rootPane, "Mã thói quen phải có 4 kí tự");
+        } else if (!checkid) {
+            JOptionPane.showMessageDialog(rootPane, "Mã thói quen đã tồn tại");
+        } else if (ngayketthuc.before(ngaybatdau)) {
+            // Kiểm tra ngày kết thúc phải lớn hơn ngày bắt đầu
+            JOptionPane.showMessageDialog(rootPane, "Ngày kết thúc phải lớn hơn ngày bắt đầu");
 
-if (name.length() == 0 || id.length() == 0) {
-    JOptionPane.showMessageDialog(rootPane, "Không được để trống thông tin");
-} else if (id.length() != 4) {
-    JOptionPane.showMessageDialog(rootPane, "Mã thói quen phải có 4 kí tự");
-} else if (ngayketthuc.before(ngaybatdau)) {
-    // Kiểm tra ngày kết thúc phải lớn hơn ngày bắt đầu
-    JOptionPane.showMessageDialog(rootPane, "Ngày kết thúc phải lớn hơn ngày bắt đầu");
-} else {
-    thoiquenadd add = new thoiquenadd();
-    // Gọi phương thức addThoiQuen chính thức mà bạn đã triển khai
-    add.addThoiQuen(id, name, new java.sql.Date(ngaybatdau.getTime()), new java.sql.Date(ngayketthuc.getTime()));
-    
-    // Cập nhật lại danh sách thói quen sau khi thêm
-    thoiquen = ListThoiQuen.getAllThoiQuen();
-    
-    // Cập nhật giao diện bảng thói quen (hiển thị lại danh sách thói quen)
-    Viewtable_thoiquen();
-    
-    // Ẩn các nút và nhãn không cần thiết sau khi lưu thành công
-    label_add.setVisible(false);
-    btn_save.setVisible(false);
-    btn_cancel.setVisible(false);
-    btn_add.setVisible(true);
-    
-    // Xóa dữ liệu nhập vào để chuẩn bị cho lần nhập mới
-    mtq_text.setText("");
-    ttq_text.setText("");
-    nbd_date.setDate(null);
-    nkt_date.setDate(null);
-    mtq_text.setEditable(false);
-    ttq_text.setEditable(false);
-    nbd_date.setEnabled(false);
-    nkt_date.setEnabled(false);
-    
-    // Hiển thị thông báo thêm thành công
-    JOptionPane.showMessageDialog(rootPane, "Thêm thói quen thành công");
-}
+        } else {
+            thoiquenadd add = new thoiquenadd();
+            add.addThoiQuen(id, name, new java.sql.Date(ngaybatdau.getTime()), new java.sql.Date(ngayketthuc.getTime()));
+            java.sql.Date sqlNgayBatDau = new java.sql.Date(ngaybatdau.getTime());
+            thoiquen = ListThoiQuen.getAllThoiQuen();
+
+            // Gọi phương thức addThoiQuen chính thức mà bạn đã triển khai
+            Viewtable_thoiquen();
+
+            label_add.setVisible(false);
+            btn_save.setVisible(false);
+            btn_cancel.setVisible(false);
+            btn_add.setVisible(true);
+
+            mtq_text.setText("");
+            ttq_text.setText("");
+            nbd_date.setDate(null);
+            nkt_date.setDate(null);
+            mtq_text.setEditable(false);
+            ttq_text.setEditable(false);
+            nbd_date.setEnabled(false);
+            nkt_date.setEnabled(false);
+        }
+
+        // Sửa thói quen
+        // Hiển thị thông báo thêm thành công
+        JOptionPane.showMessageDialog(rootPane, "Thêm thói quen thành công");
+
     }//GEN-LAST:event_btn_saveActionPerformed
 
     private void mtq_textActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mtq_textActionPerformed
@@ -993,141 +946,75 @@ if (name.length() == 0 || id.length() == 0) {
 
         JButton button1 = new JButton("Sửa");
         JButton button2 = new JButton("Xoá");
-        
+
         int pos = this.table_thoiquen.getSelectedRow();
         //button Sửa
-//        button1.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                stt = (int) table_thoiquen.getValueAt(pos,0) -1;
-//                mtq_text.setText(table_thoiquen.getValueAt(pos,1).toString());
-//                ttq_text.setText(table_thoiquen.getValueAt(pos,2).toString());
-//                nbd_date.setDate((Date) table_thoiquen.getValueAt(pos,3));
-//                nkt_date.setDate((Date) table_thoiquen.getValueAt(pos,4));
-//                dialog_ego.setVisible(false);
-//                label_fix.setVisible(true);
-//                label_add.setVisible(false);
-//                
-//                btn_savefix.setVisible(true);
-//                btn_cancel.setVisible(true);
-//                btn_add.setVisible(false);
-//                btn_save.setVisible(false);
-//               
-//                mtq_text.setEditable(true);
-//                ttq_text.setEditable(true);
-//                nbd_date.setEnabled(true);
-//                nkt_date.setEnabled(true);
-//                }
-//        });
-       button1.addActionListener(new ActionListener() {
-    public void actionPerformed(ActionEvent e) {
-        int selectedRow = table_thoiquen.getSelectedRow();  // Lấy chỉ số của hàng được chọn
-        if (selectedRow == -1) {  // Kiểm tra nếu không có hàng nào được chọn
-            JOptionPane.showMessageDialog(null, "Vui lòng chọn một hàng để chỉnh sửa.");
-            return;
-        }
+        button1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int selectedRow = table_thoiquen.getSelectedRow();
+                if (selectedRow == -1) {
+                    JOptionPane.showMessageDialog(null, "Vui lòng chọn một hàng để chỉnh sửa.");
+                    return;
+                }
+                stt = selectedRow;
+                mtq_text.setText(table_thoiquen.getValueAt(pos, 1).toString());
+                ttq_text.setText(table_thoiquen.getValueAt(pos, 2).toString());
+                nbd_date.setDate((Date) table_thoiquen.getValueAt(pos, 3));
+                nkt_date.setDate((Date) table_thoiquen.getValueAt(pos, 4));
+                dialog_ego.setVisible(false);
+                label_fix.setVisible(true);
+                label_add.setVisible(false);
 
-        stt = selectedRow;  // Đặt giá trị chỉ số đã chọn
-        mtq_text.setText(table_thoiquen.getValueAt(selectedRow, 1).toString());  // Mã thói quen
-        ttq_text.setText(table_thoiquen.getValueAt(selectedRow, 2).toString());  // Tên thói quen
-        nbd_date.setDate((Date) table_thoiquen.getValueAt(selectedRow, 3));  // Ngày bắt đầu
-        nkt_date.setDate((Date) table_thoiquen.getValueAt(selectedRow, 4));  // Ngày kết thúc
+                btn_savefix.setVisible(true);
+                btn_cancel.setVisible(true);
+                btn_add.setVisible(false);
+                btn_save.setVisible(false);
 
-        // Hiển thị các label và nút phù hợp
-        dialog_ego.setVisible(false);
-        label_fix.setVisible(true);
-        label_add.setVisible(false);
-
-        btn_savefix.setVisible(true);
-        btn_cancel.setVisible(true);
-        btn_add.setVisible(false);
-        btn_save.setVisible(false);
-
-        // Kích hoạt chế độ chỉnh sửa
-        mtq_text.setEditable(true);
-        ttq_text.setEditable(true);
-        nbd_date.setEnabled(true);
-        nkt_date.setEnabled(true);
-    }
-});
-
+                mtq_text.setEditable(true);
+                ttq_text.setEditable(true);
+                nbd_date.setEnabled(true);
+                nkt_date.setEnabled(true);
+            }
+        });
 
         //button Xoá
-//        button2.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                
-//                int response = JOptionPane.showConfirmDialog(dialog_ego, 
-//                    "Bạn thật sự muốn xóa?", 
-//                    "Xác nhận",
-//                    JOptionPane.YES_NO_OPTION, 
-//                    JOptionPane.WARNING_MESSAGE);
-//                //Xoá trong list và view lại bảng
-//                if (response == JOptionPane.YES_OPTION) {
-//                    JOptionPane.showMessageDialog(dialog_ego, "Đã xóa!", "Thông Báo", JOptionPane.INFORMATION_MESSAGE);
-//                    String mathoiquen = table_thoiquen.getValueAt(pos,1).toString();
-//                    for(thoi_quen x : thoiquen){
-//                        if(x.getId().equals(mathoiquen)){
-//                            thoiquen.remove(x);
-//                            break;
-//                        } 
-//                    }
-//                    dialog_ego.setVisible(false);
-//                    ttq_text.setText("");
-//                    nbd_date.setDate(null);
-//                    nkt_date.setDate(null);
-//                    mtq_text.setEditable(false);
-//                    ttq_text.setEditable(false);
-//                    nbd_date.setEnabled(false);
-//                    nkt_date.setEnabled(false);
-//                   Viewtable_thoiquen();
-//                } else {
-//                    dialog_ego.setVisible(false);
-//                }
-//            }
-//        });
         button2.addActionListener(new ActionListener() {
-    public void actionPerformed(ActionEvent e) {
-        
-        int response = JOptionPane.showConfirmDialog(dialog_ego, 
-            "Bạn thật sự muốn xóa?", 
-            "Xác nhận",
-            JOptionPane.YES_NO_OPTION, 
-            JOptionPane.WARNING_MESSAGE);
-        
-        if (response == JOptionPane.YES_OPTION) {
-            // Lấy mã thói quen từ bảng
-            String mathoiquen = table_thoiquen.getValueAt(pos, 1).toString();
+            public void actionPerformed(ActionEvent e) {
 
-            // Xoá trong CSDL
-            thoiquendelete deleteHabit = new thoiquendelete();  // Sử dụng class thoiquendelete
-            deleteHabit.deleteThoiQuen(mathoiquen); // Xóa thói quen từ cơ sở dữ liệu
+                int response = JOptionPane.showConfirmDialog(dialog_ego,
+                        "Bạn thật sự muốn xóa?",
+                        "Xác nhận",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE);
+                //Xoá trong list và view lại bảng
+                if (response == JOptionPane.YES_OPTION) {
+                    JOptionPane.showMessageDialog(dialog_ego, "Đã xóa!", "Thông Báo", JOptionPane.INFORMATION_MESSAGE);
+                    String mathoiquen = table_thoiquen.getValueAt(pos, 1).toString();
+                    // Xoá trong CSDL
+                    thoiquendelete deleteHabit = new thoiquendelete();  // Sử dụng class thoiquendelete
+                    deleteHabit.deleteThoiQuen(mathoiquen);
+                    for (thoi_quen x : thoiquen) {
+                        if (x.getId().equals(mathoiquen)) {
+                            thoiquen.remove(x);
+                            break;
+                        }
+                    }
+                    JOptionPane.showMessageDialog(dialog_ego, "Đã xóa!", "Thông Báo", JOptionPane.INFORMATION_MESSAGE);
 
-            // Xóa khỏi danh sách thoiquen (cập nhật danh sách tạm thời)
-            for (thoi_quen x : thoiquen) {
-                if (x.getId().equals(mathoiquen)) {
-                    thoiquen.remove(x);
-                    break;
+                    dialog_ego.setVisible(false);
+                    ttq_text.setText("");
+                    nbd_date.setDate(null);
+                    nkt_date.setDate(null);
+                    mtq_text.setEditable(false);
+                    ttq_text.setEditable(false);
+                    nbd_date.setEnabled(false);
+                    nkt_date.setEnabled(false);
+                    Viewtable_thoiquen();
+                } else {
+                    dialog_ego.setVisible(false);
                 }
             }
-
-            // Thông báo đã xóa
-            JOptionPane.showMessageDialog(dialog_ego, "Đã xóa!", "Thông Báo", JOptionPane.INFORMATION_MESSAGE);
-
-            // Cập nhật lại bảng và giao diện
-            dialog_ego.setVisible(false);
-            ttq_text.setText("");
-            nbd_date.setDate(null);
-            nkt_date.setDate(null);
-            mtq_text.setEditable(false);
-            ttq_text.setEditable(false);
-            nbd_date.setEnabled(false);
-            nkt_date.setEnabled(false);
-            Viewtable_thoiquen();  // Cập nhật lại bảng
-        } else {
-            dialog_ego.setVisible(false);
-        }
-    }
-});
-
+        });
 
         dialog_ego.add(button1);
         dialog_ego.add(button2);
@@ -1143,7 +1030,7 @@ if (name.length() == 0 || id.length() == 0) {
         label_add.setVisible(false);
         label_fix.setVisible(false);
         btn_savefix.setVisible(false);
-        
+
         ttq_text.setText("");
         nbd_date.setDate(null);
         nkt_date.setDate(null);
@@ -1155,115 +1042,61 @@ if (name.length() == 0 || id.length() == 0) {
 
     private void btn_savefixActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_savefixActionPerformed
         // TODO add your handling code here:
-//        String id = mtq_text.getText();
-//        String name = ttq_text.getText();
-//        Date ngaybatdau = nbd_date.getDate();
-//        Date ngayketthuc = nkt_date.getDate();
-//        boolean check_habit = true;
-//        for(int i = 0;i < thoiquen.size();i++){
-//            if(i == stt){
-//                continue;
-//            }
-//            if(thoiquen.get(i).getId().equals(id)){
-//                JOptionPane.showMessageDialog(rootPane, "Mã thói quen đã tồn tại");
-//                check_habit = false;
-//                break;
-//            }
-//        }
-//        if(name.length()==0||id.length()==0){
-//            JOptionPane.showMessageDialog(rootPane, "Không được để trống");
-//        }
-//        else if(id.length()!=4){
-//           JOptionPane.showMessageDialog(rootPane, "Mã thói quen phải có 4 kí tự");
-//        }
-//        else if(check_habit){
-//            thoiquen.get(stt).setId(id);
-//            thoiquen.get(stt).setName(name);
-//            thoiquen.get(stt).setNgaybatdau(ngaybatdau);
-//            thoiquen.get(stt).setNgayketthuc(ngayketthuc);
-//            ViewTable();
-//            
-//            btn_add.setVisible(true);
-//            btn_save.setVisible(false);
-//            btn_savefix.setVisible(false);
-//            btn_cancel.setVisible(false);
-//            label_fix.setVisible(false);
-//            
-//            ttq_text.setText("");
-//            mtq_text.setText("");
-//            nbd_date.setDate(null);
-//            nkt_date.setDate(null);
-//            mtq_text.setEditable(false);
-//            ttq_text.setEditable(false);
-//            nbd_date.setEnabled(false);
-//            nkt_date.setEnabled(false);
-//        }     
-        loadThoiQuenData();  // Tải lại dữ liệu thói quen từ database hoặc danh sách hiện tại
-   String id = mtq_text.getText();
-String name = ttq_text.getText();
-Date ngaybatdau = nbd_date.getDate();
-Date ngayketthuc = nkt_date.getDate();
-boolean check_habit = true;
+        String id = mtq_text.getText();
+        String name = ttq_text.getText();
+        Date ngaybatdau = nbd_date.getDate();
+        Date ngayketthuc = nkt_date.getDate();
+        boolean check_habit = true;
+        for (int i = 0; i < thoiquen.size(); i++) {
+            if (i == stt) {
+                continue;
+            }
+            if (thoiquen.get(i).getId().equals(id)) {
+                JOptionPane.showMessageDialog(rootPane, "Mã thói quen đã tồn tại");
+                check_habit = false;
+                break;
+            }
+        }
+        if (name.length() == 0 || id.length() == 0) {
+            JOptionPane.showMessageDialog(rootPane, "Không được để trống");
+        } else if (id.length() != 4) {
+            JOptionPane.showMessageDialog(rootPane, "Mã thói quen phải có 4 kí tự");
+        } else if (ngaybatdau == null || ngayketthuc == null) {
+            JOptionPane.showMessageDialog(rootPane, "Ngày bắt đầu và ngày kết thúc không được để trống");
+        } else if (ngaybatdau.after(ngayketthuc)) {
+            JOptionPane.showMessageDialog(rootPane, "Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu");
 
-// Kiểm tra xem mã thói quen đã tồn tại hay chưa
-for (int i = 0; i < thoiquen.size(); i++) {
-    if (i == stt) { // Bỏ qua chỉ số hiện tại khi chỉnh sửa
-        continue;
-    }
-    if (thoiquen.get(i).getId().equals(id)) {
-        JOptionPane.showMessageDialog(rootPane, "Mã thói quen đã tồn tại");
-        check_habit = false;
-        break;
-    }
-}
+        } else if (check_habit) {
+            thoiquen.get(stt).setId(id);
+            thoiquen.get(stt).setName(name);
+            thoiquen.get(stt).setNgaybatdau(ngaybatdau);
+            thoiquen.get(stt).setNgayketthuc(ngayketthuc);
+            Viewtable_thoiquen();
 
-// Kiểm tra các điều kiện đầu vào
-if (name.length() == 0 || id.length() == 0) {
-    JOptionPane.showMessageDialog(rootPane, "Không được để trống thông tin");
-} else if (id.length() != 4) {
-    JOptionPane.showMessageDialog(rootPane, "Mã thói quen phải có 4 ký tự");
-} else if (ngaybatdau == null || ngayketthuc == null) {
-    JOptionPane.showMessageDialog(rootPane, "Ngày bắt đầu và ngày kết thúc không được để trống");
-} else if (ngaybatdau.after(ngayketthuc)) {
-    JOptionPane.showMessageDialog(rootPane, "Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu");
-} else if (check_habit) {
-    // Cập nhật thông tin thói quen trong danh sách
-    thoiquen.get(stt).setId(id);
-    thoiquen.get(stt).setName(name);
-    thoiquen.get(stt).setNgaybatdau(ngaybatdau);
-    thoiquen.get(stt).setNgayketthuc(ngayketthuc);
+            btn_add.setVisible(true);
+            btn_save.setVisible(false);
+            btn_savefix.setVisible(false);
+            btn_cancel.setVisible(false);
+            label_fix.setVisible(false);
 
-    // Cập nhật bảng hiển thị
-    Viewtable_thoiquen();
+            ttq_text.setText("");
+            mtq_text.setText("");
+            nbd_date.setDate(null);
+            nkt_date.setDate(null);
+            mtq_text.setEditable(false);
+            ttq_text.setEditable(false);
+            nbd_date.setEnabled(false);
+            nkt_date.setEnabled(false);
 
-    // Đặt lại trạng thái các nút và trường nhập liệu
-    btn_add.setVisible(true);
-    btn_save.setVisible(false);
-    btn_savefix.setVisible(false);
-    btn_cancel.setVisible(false);
-    label_fix.setVisible(false);
-
-    // Đặt lại các trường nhập liệu
-    ttq_text.setText("");
-    mtq_text.setText("");
-    nbd_date.setDate(null);
-    nkt_date.setDate(null);
-    mtq_text.setEditable(false);
-    ttq_text.setEditable(false);
-    nbd_date.setEnabled(false);
-    nkt_date.setEnabled(false);
-
-    // Cập nhật vào database
-    thoiquenedit thoiQuenEdit = new thoiquenedit();
-    thoiQuenEdit.updateThoiQuen(
-        id, 
-        name, 
-        new java.sql.Date(ngaybatdau.getTime()), 
-        new java.sql.Date(ngayketthuc.getTime())
-    );
-
-    JOptionPane.showMessageDialog(rootPane, "Cập nhật thói quen thành công!");
-}
+            thoiquenedit thoiQuenEdit = new thoiquenedit();
+            thoiQuenEdit.updateThoiQuen(
+                    id,
+                    name,
+                    new java.sql.Date(ngaybatdau.getTime()),
+                    new java.sql.Date(ngayketthuc.getTime())
+            );
+            JOptionPane.showMessageDialog(rootPane, "Cập nhật thói quen thành công!");
+        }
 
 
     }//GEN-LAST:event_btn_savefixActionPerformed
@@ -1280,9 +1113,6 @@ if (name.length() == 0 || id.length() == 0) {
         Viewtable_thoiquen();
     }//GEN-LAST:event_jPanel2AncestorAdded
 
-   
-    
-    
     /**
      * @param args the command line arguments
      */
@@ -1309,7 +1139,7 @@ if (name.length() == 0 || id.length() == 0) {
             java.util.logging.Logger.getLogger(main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -1326,7 +1156,6 @@ if (name.length() == 0 || id.length() == 0) {
             }
         });
     }
-        
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
