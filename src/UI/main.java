@@ -25,6 +25,9 @@ import manageSQL.ListThoiQuen;
 import manageSQL.thoiquendelete;
 import manageSQL.thoiquenedit;
 
+
+
+
 public class main extends javax.swing.JFrame {
 
     /**
