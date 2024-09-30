@@ -11,8 +11,10 @@ package manageSQL;
 public class ConnectDB {
     public ConnectDB getConnect(){
          try {
-             Class.forName("Com")
+             Class.forName("Com");
+         } catch (ClassNotFoundException e) {
+             e.printStackTrace();
          }
+         return this;
     }
-    
 }
