@@ -1,42 +1,43 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Class;
+
+import java.io.Serializable;
 
 /**
  *
  * @author Pamlamdi
  */
-public class user {
-    private String name;
-    private int id;
-    private String email;
-    private String matkhau;
-    private String list_thoi_quen;
+public class user implements Serializable {
+    private String id;            //tên đăng nhập
+//    private int id;                 // id 
+    private String email;           // email
+    private String matkhau;         //mật khẩu đăng nhập
+    private boolean role;            // vai trò (addmin và ưeser)   
+   
 
     public user(){}
-    public user(int id, String name, String email, String matkhau, String list_thoi_quen) {
+    public user( String id, String email, String matkhau, boolean role) {
         this.id = id;
-        this.name = name;
+//        this.name = name;
         this.email = email;
         this.matkhau = matkhau;
-        this.list_thoi_quen = list_thoi_quen;
+        this.role = role;
+        
     }
-    public int getId() {
+//    public int getId() {
+//        return id;
+//    }
+//
+//    public void setId(int id) {
+//        this.id = id;
+//    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getEmail() {
@@ -54,12 +55,14 @@ public class user {
     public void setPass(String matkhau) {
         this.matkhau = matkhau;
     }
-
-    public String getList_thoi_quen() {
-        return list_thoi_quen;
+    public boolean getRole(){
+        return role;
+    }
+    public void setRole(boolean role){
+        this.role = role;
     }
 
-    public void setList_thoi_quen(String list_thoi_quen) {
-        this.list_thoi_quen = list_thoi_quen;
+    public String getemail() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

@@ -8,6 +8,11 @@ package manageSQL;
  *
  * @author HIEU
  */
-public class a {
+public class ConnectDB {
+    public ConnectDB getConnect(){
+         try {
+             Class.forName("Com")
+         }
+    }
     
 }

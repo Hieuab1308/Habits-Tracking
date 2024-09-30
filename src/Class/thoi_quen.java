@@ -1,21 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Class;
 
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- *
- * @author Thanh Nam
- */
+
 public class thoi_quen implements Serializable {
-    private String id;
-    private  String name;
-    private Date ngaybatdau;
-    private Date ngayketthuc;
+    private String id;                      // mã thói quen
+    private  String name;                   //tên thói quen
+    private Date ngaybatdau;                   // ngày bắt đầu
+    private Date ngayketthuc;               //ngày kết thúc
     
     public thoi_quen() {
     }
