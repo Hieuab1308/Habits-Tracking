@@ -25,7 +25,7 @@ public class DatabaseConfig {
 
     private void loadProperties() {
         Properties properties = new Properties();
-        try (FileInputStream input = new FileInputStream("C:\\Users\\HIEU\\codejava\\test\\app_theo_doi_thoi_quen_ca_nhan\\src\\manageSQL\\config.properties")) {
+        try (FileInputStream input = new FileInputStream("C:\\Users\\HIEU\\codejava\\test\\Habits-Tracking\\src\\manageSQL\\config.properties")) {
             properties.load(input);
             this.url = properties.getProperty("db.url");
             this.username = properties.getProperty("db.username");

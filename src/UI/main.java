@@ -86,18 +86,32 @@ public class main extends javax.swing.JFrame {
     public static int stt = -1;
 //Table thói quen
 
-    public void Viewtable_thoiquen() {
-//        DefaultTableModel model = (DefaultTableModel) this.table_thoiquen.getModel();
-//        model.setNumRows(0);
-//        int n = 1;
-//        for(thoi_quen x : thoiquen){
-//            model.addRow(new Object[]{n++,x.getId(),x.getName(),x.getNgaybatdau(),x.getNgayketthuc()});
-//        }
+    public void Viewtable1() {
+//        
         DefaultTableModel model = (DefaultTableModel) this.table_thoiquen.getModel();
         model.setNumRows(0); // Xóa tất cả các hàng trong bảng
         int n = 1;
         for (thoi_quen tq : thoiquen) {
             model.addRow(new Object[]{n++, tq.getId(), tq.getName(), tq.getNgaybatdau(), tq.getNgayketthuc()});
+        }
+    }
+    
+    public void Viewtable2(){
+        DefaultTableModel model2 =(DefaultTableModel) this.table_tracking.getModel();
+        model2.setNumRows(0);
+        int n =1;
+        for(thoi_quen x : thoiquen){
+            model2.addRow(new Object[]{ x.getId(), x.getName(), x.getNgaybatdau(), x.getNgayketthuc()});
+        }
+        
+}
+     private void loadThoiQuenData1() {
+        List<thoi_quen> thoiQuenList = ListThoiQuen.getAllThoiQuen(); // Gọi phương thức từ ListThoiQuen
+        DefaultTableModel model = (DefaultTableModel) this.table_tracking.getModel(); // Giả sử bạn có một JTable tên là table_thoiquen
+        model.setNumRows(0); // Xóa dữ liệu cũ
+        int n = 1; // Số thứ tự
+        for (thoi_quen tq : thoiQuenList) {
+            model.addRow(new Object[]{tq.getId(), tq.getName(), tq.getNgaybatdau(), tq.getNgayketthuc()});
         }
     }
 
@@ -151,7 +165,7 @@ public class main extends javax.swing.JFrame {
         jP2 = new javax.swing.JPanel();
         jCalendar1 = new com.toedter.calendar.JCalendar();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        table_tracking = new javax.swing.JTable();
         button_check = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jPclock = new javax.swing.JLabel();
@@ -390,7 +404,7 @@ public class main extends javax.swing.JFrame {
         });
         jPanel2.setLayout(new javax.swing.OverlayLayout(jPanel2));
 
-        jP1.setBackground(new java.awt.Color(224, 224, 224));
+        jP1.setBackground(new java.awt.Color(255, 255, 255));
         jP1.setMaximumSize(new java.awt.Dimension(2147483647, 2147483647));
         jP1.setPreferredSize(new java.awt.Dimension(1875, 534));
 
@@ -475,7 +489,7 @@ public class main extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -488,6 +502,16 @@ public class main extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(table_thoiquen);
+        if (table_thoiquen.getColumnModel().getColumnCount() > 0) {
+            table_thoiquen.getColumnModel().getColumn(0).setMinWidth(40);
+            table_thoiquen.getColumnModel().getColumn(0).setMaxWidth(40);
+            table_thoiquen.getColumnModel().getColumn(1).setMinWidth(100);
+            table_thoiquen.getColumnModel().getColumn(1).setMaxWidth(100);
+            table_thoiquen.getColumnModel().getColumn(3).setMinWidth(120);
+            table_thoiquen.getColumnModel().getColumn(3).setMaxWidth(120);
+            table_thoiquen.getColumnModel().getColumn(4).setMinWidth(120);
+            table_thoiquen.getColumnModel().getColumn(4).setMaxWidth(120);
+        }
 
         label_add.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         label_add.setText("Thêm thói quen:");
@@ -586,15 +610,33 @@ public class main extends javax.swing.JFrame {
                     .addComponent(btn_savefix, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(11, 11, 11)
-                .addComponent(btn_add, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 625, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btn_add, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(196, Short.MAX_VALUE))
+            .addGroup(jP1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
         );
 
         jPanel2.add(jP1);
 
-        jP2.setBackground(new java.awt.Color(209, 207, 207));
+        jP2.setBackground(new java.awt.Color(255, 255, 255));
+        jP2.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                jP2AncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+        jP2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jP2MouseClicked(evt);
+            }
+        });
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        table_tracking.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -602,10 +644,28 @@ public class main extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Mã thói quen", "Tên thói quen", "Ngày bắt đầu", "Ngày kết thúc"
             }
-        ));
-        jScrollPane2.setViewportView(jTable2);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(table_tracking);
+        if (table_tracking.getColumnModel().getColumnCount() > 0) {
+            table_tracking.getColumnModel().getColumn(0).setMinWidth(110);
+            table_tracking.getColumnModel().getColumn(0).setMaxWidth(130);
+            table_tracking.getColumnModel().getColumn(1).setMinWidth(240);
+            table_tracking.getColumnModel().getColumn(1).setMaxWidth(240);
+            table_tracking.getColumnModel().getColumn(2).setMinWidth(150);
+            table_tracking.getColumnModel().getColumn(2).setMaxWidth(150);
+            table_tracking.getColumnModel().getColumn(3).setMinWidth(150);
+            table_tracking.getColumnModel().getColumn(3).setMaxWidth(150);
+        }
 
         button_check.setText("Check");
         button_check.addActionListener(new java.awt.event.ActionListener() {
@@ -643,29 +703,27 @@ public class main extends javax.swing.JFrame {
         jP2Layout.setHorizontalGroup(
             jP2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jP2Layout.createSequentialGroup()
-                .addGroup(jP2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jP2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jP2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jCalendar1, javax.swing.GroupLayout.PREFERRED_SIZE, 604, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(button_check, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jP2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jP2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jP2Layout.createSequentialGroup()
+                            .addGap(513, 513, 513)
+                            .addComponent(button_check, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jCalendar1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 604, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 687, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 268, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 663, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(87, Short.MAX_VALUE))
         );
         jP2Layout.setVerticalGroup(
             jP2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jP2Layout.createSequentialGroup()
-                .addGroup(jP2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jP2Layout.createSequentialGroup()
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCalendar1, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jCalendar1, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(button_check, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(143, Short.MAX_VALUE))
+                .addContainerGap(108, Short.MAX_VALUE))
+            .addComponent(jScrollPane2)
         );
 
         jPanel2.add(jP2);
@@ -754,7 +812,7 @@ public class main extends javax.swing.JFrame {
         jP2.setVisible(false);
         jP3.setVisible(false);
         jP4.setVisible(false);
-        Viewtable_thoiquen();
+        Viewtable1();
 //        tab5.setVisible(false);
 
 
@@ -767,6 +825,7 @@ public class main extends javax.swing.JFrame {
         jP3.setVisible(false);
         jP4.setVisible(false);
         clock();
+        loadThoiQuenData1();
 
 //        tab5.setVisible(false);
 
@@ -810,6 +869,8 @@ public class main extends javax.swing.JFrame {
         jP2.setVisible(true);
         jP3.setVisible(false);
         jP4.setVisible(false);
+        Viewtable2();
+        loadThoiQuenData1();
 //        tab5.setVisible(false);
     }//GEN-LAST:event_tab2MouseClicked
 
@@ -847,6 +908,10 @@ public class main extends javax.swing.JFrame {
 
     private void button_checkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_checkActionPerformed
         // TODO add your handling code here:
+          
+
+        
+
     }//GEN-LAST:event_button_checkActionPerformed
 
     private void ttq_textActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ttq_textActionPerformed
@@ -872,7 +937,7 @@ public class main extends javax.swing.JFrame {
         btn_save.setVisible(true);
         btn_cancel.setVisible(true);
         btn_add.setVisible(false);
-        Viewtable_thoiquen();
+        Viewtable1();
     }//GEN-LAST:event_btn_addActionPerformed
 
     private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
@@ -908,7 +973,7 @@ public class main extends javax.swing.JFrame {
             thoiquen = ListThoiQuen.getAllThoiQuen();
 
             // Gọi phương thức addThoiQuen chính thức mà bạn đã triển khai
-            Viewtable_thoiquen();
+            Viewtable1();
 
             label_add.setVisible(false);
             btn_save.setVisible(false);
@@ -927,7 +992,7 @@ public class main extends javax.swing.JFrame {
 
         // Sửa thói quen
         // Hiển thị thông báo thêm thành công
-        JOptionPane.showMessageDialog(rootPane, "Thêm thói quen thành công");
+//        JOptionPane.showMessageDialog(rootPane, "Thêm thói quen thành công");
 
     }//GEN-LAST:event_btn_saveActionPerformed
 
@@ -999,7 +1064,7 @@ public class main extends javax.swing.JFrame {
                             break;
                         }
                     }
-                    JOptionPane.showMessageDialog(dialog_ego, "Đã xóa!", "Thông Báo", JOptionPane.INFORMATION_MESSAGE);
+//                    JOptionPane.showMessageDialog(dialog_ego, "Đã xóa!", "Thông Báo", JOptionPane.INFORMATION_MESSAGE);
 
                     dialog_ego.setVisible(false);
                     ttq_text.setText("");
@@ -1009,7 +1074,7 @@ public class main extends javax.swing.JFrame {
                     ttq_text.setEditable(false);
                     nbd_date.setEnabled(false);
                     nkt_date.setEnabled(false);
-                    Viewtable_thoiquen();
+                    Viewtable1();
                 } else {
                     dialog_ego.setVisible(false);
                 }
@@ -1071,7 +1136,7 @@ public class main extends javax.swing.JFrame {
             thoiquen.get(stt).setName(name);
             thoiquen.get(stt).setNgaybatdau(ngaybatdau);
             thoiquen.get(stt).setNgayketthuc(ngayketthuc);
-            Viewtable_thoiquen();
+            Viewtable1();
 
             btn_add.setVisible(true);
             btn_save.setVisible(false);
@@ -1095,7 +1160,7 @@ public class main extends javax.swing.JFrame {
                     new java.sql.Date(ngaybatdau.getTime()),
                     new java.sql.Date(ngayketthuc.getTime())
             );
-            JOptionPane.showMessageDialog(rootPane, "Cập nhật thói quen thành công!");
+//            JOptionPane.showMessageDialog(rootPane, "Cập nhật thói quen thành công!");
         }
 
 
@@ -1110,8 +1175,18 @@ public class main extends javax.swing.JFrame {
 
     private void jPanel2AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jPanel2AncestorAdded
         // TODO add your handling code here:
-        Viewtable_thoiquen();
+        Viewtable1();
     }//GEN-LAST:event_jPanel2AncestorAdded
+
+    private void jP2AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jP2AncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jP2AncestorAdded
+
+    private void jP2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jP2MouseClicked
+        // TODO add your handling code here:
+        Viewtable2();
+        loadThoiQuenData1();
+    }//GEN-LAST:event_jP2MouseClicked
 
     /**
      * @param args the command line arguments
@@ -1189,7 +1264,6 @@ public class main extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JLabel label_add;
     private javax.swing.JLabel label_fix;
@@ -1203,6 +1277,7 @@ public class main extends javax.swing.JFrame {
     private javax.swing.JPanel tab4;
     private javax.swing.JPanel tab5;
     private javax.swing.JTable table_thoiquen;
+    private javax.swing.JTable table_tracking;
     private javax.swing.JTextField ttq_text;
     // End of variables declaration//GEN-END:variables
 }
