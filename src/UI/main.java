@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import Class.thoi_quen;
 import Class.user;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,6 +22,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import manageSQL.thoiquenadd;
 import java.util.Date;
+import javax.swing.table.DefaultTableCellRenderer;
 import manageSQL.ListThoiQuen;
 import manageSQL.thoiquendelete;
 import manageSQL.thoiquenedit;
@@ -104,7 +106,7 @@ public class main extends javax.swing.JFrame {
         model2.setNumRows(0);
         int n =1;
         for(thoi_quen x : thoiquen){
-            model2.addRow(new Object[]{ x.getId(), x.getName(), x.getNgaybatdau(), x.getNgayketthuc()});
+            model2.addRow(new Object[]{ x.getId(), x.getName(), x.getNgaybatdau(), "Đang thực hiện"});
         }
         
 }
@@ -114,8 +116,12 @@ public class main extends javax.swing.JFrame {
         model.setNumRows(0); // Xóa dữ liệu cũ
         int n = 1; // Số thứ tự
         for (thoi_quen tq : thoiQuenList) {
-            model.addRow(new Object[]{tq.getId(), tq.getName(), tq.getNgaybatdau(), tq.getNgayketthuc()});
+            model.addRow(new Object[]{tq.getId(), tq.getName(), tq.getNgaybatdau(), "Đang thực hiện"});
         }
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+        renderer.setForeground(Color.RED); 
+
+        table_tracking.getColumnModel().getColumn(3).setCellRenderer(renderer);
     }
 
     // load lại dữ liệu vào bảng
@@ -614,7 +620,7 @@ public class main extends javax.swing.JFrame {
                     .addComponent(btn_cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(11, 11, 11)
                 .addComponent(btn_add, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(196, Short.MAX_VALUE))
+                .addContainerGap(184, Short.MAX_VALUE))
             .addGroup(jP1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1)
@@ -647,7 +653,7 @@ public class main extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Mã thói quen", "Tên thói quen", "Ngày bắt đầu", "Ngày kết thúc"
+                "Mã thói quen", "Tên thói quen", "Ngày bắt đầu", "Hàng ngày"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -658,16 +664,28 @@ public class main extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        table_tracking.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                table_trackingAncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+        table_tracking.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                table_trackingMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(table_tracking);
         if (table_tracking.getColumnModel().getColumnCount() > 0) {
             table_tracking.getColumnModel().getColumn(0).setMinWidth(110);
             table_tracking.getColumnModel().getColumn(0).setMaxWidth(130);
-            table_tracking.getColumnModel().getColumn(1).setMinWidth(240);
-            table_tracking.getColumnModel().getColumn(1).setMaxWidth(240);
-            table_tracking.getColumnModel().getColumn(2).setMinWidth(150);
-            table_tracking.getColumnModel().getColumn(2).setMaxWidth(150);
-            table_tracking.getColumnModel().getColumn(3).setMinWidth(150);
-            table_tracking.getColumnModel().getColumn(3).setMaxWidth(150);
+            table_tracking.getColumnModel().getColumn(1).setMinWidth(150);
+            table_tracking.getColumnModel().getColumn(1).setMaxWidth(150);
+            table_tracking.getColumnModel().getColumn(2).setMinWidth(100);
+            table_tracking.getColumnModel().getColumn(2).setMaxWidth(100);
         }
 
         button_check.setText("Check");
@@ -688,10 +706,10 @@ public class main extends javax.swing.JFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(200, 200, 200)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPclock)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(164, 164, 164))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -706,16 +724,16 @@ public class main extends javax.swing.JFrame {
         jP2Layout.setHorizontalGroup(
             jP2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jP2Layout.createSequentialGroup()
-                .addGroup(jP2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jP2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(jP2Layout.createSequentialGroup()
-                            .addGap(513, 513, 513)
-                            .addComponent(button_check, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jCalendar1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 604, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jP2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jP2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jP2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jCalendar1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(button_check, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 663, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(87, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 474, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(117, Short.MAX_VALUE))
         );
         jP2Layout.setVerticalGroup(
             jP2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -723,9 +741,9 @@ public class main extends javax.swing.JFrame {
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jCalendar1, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(button_check, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(108, Short.MAX_VALUE))
+                .addContainerGap(155, Short.MAX_VALUE))
             .addComponent(jScrollPane2)
         );
 
@@ -737,7 +755,7 @@ public class main extends javax.swing.JFrame {
         jP3.setLayout(jP3Layout);
         jP3Layout.setHorizontalGroup(
             jP3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1883, Short.MAX_VALUE)
+            .addGap(0, 1116, Short.MAX_VALUE)
         );
         jP3Layout.setVerticalGroup(
             jP3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -770,7 +788,7 @@ public class main extends javax.swing.JFrame {
             .addGroup(jP4Layout.createSequentialGroup()
                 .addGap(542, 542, 542)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 568, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(773, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jP4Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -910,11 +928,8 @@ public class main extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel4MouseClicked
 
     private void button_checkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_checkActionPerformed
-        // TODO add your handling code here:
-          
-
+            // TODO add your handling code here:
         
-
     }//GEN-LAST:event_button_checkActionPerformed
 
     private void ttq_textActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ttq_textActionPerformed
@@ -1190,6 +1205,52 @@ public class main extends javax.swing.JFrame {
         Viewtable2();
         loadThoiQuenData1();
     }//GEN-LAST:event_jP2MouseClicked
+
+    private void table_trackingAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_table_trackingAncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_table_trackingAncestorAdded
+  
+    private void table_trackingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_trackingMouseClicked
+        // TODO add your handling code here:
+        
+    int selectedRow = table_tracking.rowAtPoint(evt.getPoint());
+    int lastColumnIndex = table_tracking.getColumnCount() - 1; // Cột cuối cùng
+
+
+    button_check.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (selectedRow != -1) { 
+                table_tracking.setValueAt("Đã hoàn thành", selectedRow, lastColumnIndex);
+
+                DefaultTableCellRenderer renderer = new DefaultTableCellRenderer() {
+                    @Override
+                    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+                                                                   boolean hasFocus, int row, int column) {
+                        Component cellComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                        
+                        if (column == lastColumnIndex) {
+                            if ("Đã hoàn thành".equals(value)) {
+                                cellComponent.setForeground(Color.BLUE); 
+                            } else {
+                                cellComponent.setForeground(Color.RED); 
+                            }
+                        }
+                        return cellComponent;
+                    }
+                };
+
+                table_tracking.getColumnModel().getColumn(lastColumnIndex).setCellRenderer(renderer);
+
+                table_tracking.repaint();
+            } else {
+                JOptionPane.showMessageDialog(null, "Vui lòng chọn một dòng trước.");
+            }
+        }
+    });
+        
+
+    }//GEN-LAST:event_table_trackingMouseClicked
 
     /**
      * @param args the command line arguments

@@ -20,7 +20,7 @@ public class Taikhoan {
         // URL kết nối MySQL
         String jdbcURL = "jdbc:mysql://localhost:3306/thoiquen";
         String username = "root";
-        String password = "12345678";
+        String password = "thann1238";
         
         Connection connection = null;
         PreparedStatement statement = null;
