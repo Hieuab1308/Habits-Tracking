@@ -78,7 +78,7 @@ public class DangKy extends javax.swing.JFrame {
         jLabel5.setText("Mật khẩu");
 
         comboBoxLoginVaiTro.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        comboBoxLoginVaiTro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "User", "Than", "Pamlamdi", "Phuong", "Duc" }));
+        comboBoxLoginVaiTro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "User" }));
         comboBoxLoginVaiTro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboBoxLoginVaiTroActionPerformed(evt);
@@ -180,10 +180,6 @@ public class DangKy extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void comboBoxLoginVaiTroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxLoginVaiTroActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_comboBoxLoginVaiTroActionPerformed
-
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         String role = (String) comboBoxLoginVaiTro.getSelectedItem();
@@ -244,6 +240,10 @@ public class DangKy extends javax.swing.JFrame {
         this.dispose();
         new Dangnhap(userLogin).setVisible(true);
     }//GEN-LAST:event_jButton2MouseClicked
+
+    private void comboBoxLoginVaiTroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxLoginVaiTroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboBoxLoginVaiTroActionPerformed
 
     /**
      * @param args the command line arguments

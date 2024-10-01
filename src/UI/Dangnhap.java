@@ -120,7 +120,7 @@ public class Dangnhap extends javax.swing.JFrame {
         jLabel6.setText("Vai trò");
 
         comboBoxLoginVaiTro.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        comboBoxLoginVaiTro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "User", "Than", "Pamlamdi", "Phuong", "Duc" }));
+        comboBoxLoginVaiTro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "User" }));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
