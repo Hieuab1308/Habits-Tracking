@@ -8,11 +8,11 @@ import java.sql.SQLException;
 
 
 public class taikhoanedit {
-    private String getUserRole(String username) {
-        String query = "SELECT role FROM User WHERE username = ?";
+    private String getUserRole(String email) {
+        String query = "SELECT role FROM User WHERE email = ?";
         try (Connection conn = ConnectDB.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setString(1, username);
+            pstmt.setString(1, email);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 return rs.getString("role");
@@ -24,11 +24,11 @@ public class taikhoanedit {
     }
 
 
-    private boolean verifiedCurrentPassword(String username, String currentPassword) {
-        String query = "SELECT password FROM User WHERE username = ?";
+    private boolean verifiedCurrentPassword(String email, String currentPassword) {
+        String query = "SELECT matkhau FROM User WHERE email = ?";
         try (Connection conn = ConnectDB.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setString(1, username);
+            pstmt.setString(1, email);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 String storedPassword = rs.getString("password");
@@ -41,19 +41,19 @@ public class taikhoanedit {
         return false;
     }
 
-    public boolean changePassword(String currentUsername, String targetUsername, String oldPassword, String newPassword) {
-        String currentUserRole = getUserRole(currentUsername);
+    public boolean changePassword(String currentEmail, String targetEmail, String oldPassword, String newPassword) {
+        String currentUserRole = getUserRole(currentEmail);
         if (currentUserRole == null) {
             System.err.println("Cannot find role of current user");
             return false;
         }
-        if (currentUserRole.equals("Admin")) {
-            return updatePasswordInDatabase(targetUsername, newPassword);
+        if (currentUserRole.equals("TRUE")) {
+            return updatePasswordInDatabase(targetEmail, newPassword);
         }
-        else if (currentUserRole.equals("User")) {
-            if (currentUsername.equals(targetUsername)) {
-                if (verifiedCurrentPassword(currentUsername, oldPassword)) {
-                    return updatePasswordInDatabase(currentUsername, newPassword);
+        else if (currentUserRole.equals("FALSE")) {
+            if (currentEmail.equals(targetEmail)) {
+                if (verifiedCurrentPassword(currentEmail, oldPassword)) {
+                    return updatePasswordInDatabase(currentEmail, newPassword);
                 }
                 else {
                     System.out.println("Old password is incorrect");
@@ -69,11 +69,11 @@ public class taikhoanedit {
         return false;
     }
 
-    private boolean updatePasswordInDatabase(String username, String newPassword) {
-        String updateQuery = "UPDATE User SET password = ? WHERE username = ?";
+    private boolean updatePasswordInDatabase(String email, String newPassword) {
+        String updateQuery = "UPDATE User SET matkhau = ? WHERE email = ?";
         try (Connection conn = ConnectDB.getConnection(); PreparedStatement pstmt = conn.prepareStatement(updateQuery)) {
             pstmt.setString(1, newPassword);
-            pstmt.setString(2, username);
+            pstmt.setString(2, email);
             int rowsAffected = pstmt.executeUpdate();
             if (rowsAffected > 0) {
                 System.out.println("Password updated successfully.");
