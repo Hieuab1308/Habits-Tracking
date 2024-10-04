@@ -1,4 +1,3 @@
-
 package UI;
 
 import Class.user;
@@ -12,39 +11,41 @@ import manageSQL.taikhoandelete;
 import manageSQL.taikhoanedit;
 import manageSQL.thoiquendelete;
 
-
 public class Admin extends javax.swing.JFrame {
 
     private static int str = 0;
     private static int check;
     List<user> listuser = Listtaikhoan.getAllTaiKhoan();
     user usr;
+
     public Admin() {
         initComponents();
         setLocationRelativeTo(null);
     }
-    
+
     private boolean isValidEmail(String email) {
-   
+
         return email.endsWith("@gmail.com");
-}
-    public void view(){
+    }
+
+    public void view() {
         usr = listuser.get(str);
         this.text_email.setText(usr.getEmail());
         this.txt_namedangnhap.setText(usr.getId());
         this.txt_pass.setText(usr.getmatkhau());
     }
-    public void viewtable(){
+
+    public void viewtable() {
         List<user> userList = Listtaikhoan.getAllTaiKhoan();
-        DefaultTableModel model2 =(DefaultTableModel) this.Table_user.getModel();
+        DefaultTableModel model2 = (DefaultTableModel) this.Table_user.getModel();
         model2.setNumRows(0);
-        int n =1;
-        for(user x : userList){
-            model2.addRow(new Object[]{ n++, x.getEmail(), x.getId(),x.getmatkhau() });
+        int n = 1;
+        for (user x : userList) {
+            model2.addRow(new Object[]{n++, x.getEmail(), x.getId(), x.getmatkhau()});
         }
-    
+
     }
-    
+
     private void updateUserList(user updatedUser) {
         for (int i = 0; i < listuser.size(); i++) {
             if (listuser.get(i).getId().equals(updatedUser.getId())) {
@@ -54,11 +55,10 @@ public class Admin extends javax.swing.JFrame {
             }
         }
     }
-    
+
     private void removeUserFromList(String userId) {
         listuser.removeIf(user -> user.getId().equals(userId)); // Xóa người dùng khỏi danh sách dựa trên ID
     }
-        
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -271,36 +271,39 @@ public class Admin extends javax.swing.JFrame {
         jPadmin2Layout.setHorizontalGroup(
             jPadmin2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPadmin2Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
                 .addGroup(jPadmin2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPadmin2Layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
                         .addGroup(jPadmin2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
                             .addGroup(jPadmin2Layout.createSequentialGroup()
                                 .addGroup(jPadmin2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel7))
-                                .addGap(59, 59, 59)
-                                .addGroup(jPadmin2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txt_pass, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(text_email, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txt_namedangnhap, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1))
+                                    .addComponent(jLabel5)
+                                    .addGroup(jPadmin2Layout.createSequentialGroup()
+                                        .addGroup(jPadmin2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel6)
+                                            .addComponent(jLabel7))
+                                        .addGap(59, 59, 59)
+                                        .addGroup(jPadmin2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addGroup(jPadmin2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(txt_pass, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(text_email, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(txt_namedangnhap, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jScrollPane1))
+                            .addGroup(jPadmin2Layout.createSequentialGroup()
+                                .addComponent(Btb_add, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btb_edit, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btb_delete, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPadmin2Layout.createSequentialGroup()
-                        .addComponent(Btb_add, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btb_edit, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btb_delete, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(66, 66, 66)
+                        .addComponent(btb_save, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btb_huy, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(jPadmin2Layout.createSequentialGroup()
-                .addGap(66, 66, 66)
-                .addComponent(btb_save, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btb_huy, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPadmin2Layout.setVerticalGroup(
             jPadmin2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -313,12 +316,12 @@ public class Admin extends javax.swing.JFrame {
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(44, 44, 44)
                         .addGroup(jPadmin2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_pass, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_namedangnhap, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(51, 51, 51)
                         .addGroup(jPadmin2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txt_namedangnhap, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_pass, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPadmin2Layout.createSequentialGroup()
                         .addGap(133, 133, 133)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -331,7 +334,7 @@ public class Admin extends javax.swing.JFrame {
                 .addGroup(jPadmin2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btb_save, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btb_huy, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(74, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -363,7 +366,7 @@ public class Admin extends javax.swing.JFrame {
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
         // TODO add your handling code here:
-         this.dispose();
+        this.dispose();
         user userLogin = null;
         new Dangnhap(userLogin).setVisible(true);
     }//GEN-LAST:event_jLabel3MouseClicked
@@ -375,7 +378,7 @@ public class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel2AncestorMoved
 
     private void Btb_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Btb_addActionPerformed
-         check = 1;
+        check = 1;
         this.text_email.setText("");
         this.txt_namedangnhap.setText("");
         this.txt_pass.setText("");
@@ -384,8 +387,8 @@ public class Admin extends javax.swing.JFrame {
 
     private void btb_editActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btb_editActionPerformed
         // TODO add your handling code here:
-         check = -1;
-        
+        check = -1;
+
     }//GEN-LAST:event_btb_editActionPerformed
 
     private void Table_userMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Table_userMouseClicked
@@ -456,12 +459,10 @@ public class Admin extends javax.swing.JFrame {
                 viewtable();
             }
 
+        }
 
-
- }                                        
-    
     }//GEN-LAST:event_btb_saveActionPerformed
-    
+
     private void btb_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btb_deleteActionPerformed
         // TODO add your handling code here:
         String email = text_email.getText();
@@ -488,16 +489,14 @@ public class Admin extends javax.swing.JFrame {
             // Nếu người dùng chọn "Cancel", không làm gì cả
             JOptionPane.showMessageDialog(null, "Xóa tài khoản đã bị hủy.");
         }
-
+        view();
         viewtable();
-        
-        
-       
-        
+
+
     }//GEN-LAST:event_btb_deleteActionPerformed
 
     private void btb_huyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btb_huyActionPerformed
-            // TODO add your handling code here:
+        // TODO add your handling code here:
         viewtable();
     }//GEN-LAST:event_btb_huyActionPerformed
 
