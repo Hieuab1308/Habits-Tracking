@@ -13,11 +13,11 @@ public class ConnectDB {
 
     public static Connection getConnection() throws SQLException {
 
-        String url = "jdbc:mysql://localhost:3306/yourdatabase";
+        String url = "jdbc:mysql://localhost:3306/thoiquen";
 
-        String user = "yourusername";
+        String user = "root";
 
-        String password = "yourpassword";
+        String password = "12345678";
 
         return DriverManager.getConnection(url, user, password);
 
