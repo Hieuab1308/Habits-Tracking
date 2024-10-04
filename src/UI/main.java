@@ -9,10 +9,17 @@ import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -37,7 +44,18 @@ public class main extends javax.swing.JFrame {
      */
     public main(user userLogin) throws IOException, ClassNotFoundException {
         initComponents();
+        loadThoiQuenData();
         setLocationRelativeTo(null);
+        openFile();
+        loadThoiQuenData1();
+        lastDate = currentDate;
+        currentDate = LocalDate.now();
+        
+        if(!currentDate.equals(lastDate)){
+           Arrays.fill(booleanCheck,false);
+        }
+//        Arrays.fill(booleanCheck,false);
+        loadThoiQuenData1();
         jP1.setVisible(true);
         jP2.setVisible(false);
         jP3.setVisible(false);
@@ -57,8 +75,51 @@ public class main extends javax.swing.JFrame {
         btn_save.setVisible(false);
         btn_savefix.setVisible(false);
 
+        
     }
-
+    private void openFile(){
+        FileInputStream fis = null;
+        ObjectInputStream ois = null;
+        
+        try {
+            fis = new FileInputStream("data.dat");
+            ois = new ObjectInputStream(fis);
+            booleanCheck = (boolean[]) ois.readObject();
+            currentDate = (LocalDate) ois.readObject();
+        }catch(FileNotFoundException e){
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try{
+                if(ois != null && fis != null){
+                    ois.close();
+                    fis.close();
+                }
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+    private void writeFile(){
+        FileOutputStream fos = null;
+        ObjectOutputStream oos = null;
+        try {
+            fos = new FileOutputStream("data.dat");
+            oos = new ObjectOutputStream(fos);
+            oos.writeObject(booleanCheck);
+            oos.writeObject(currentDate);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try{
+                oos.close();
+                fos.close();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
     private void clock() {
         new Thread() {
             public void run() {
@@ -89,6 +150,17 @@ public class main extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     List<thoi_quen> thoiquen = ListThoiQuen.getAllThoiQuen();
     public static int stt = -1;
+    public static LocalDate lastDate;
+    public static LocalDate currentDate;
+
+    /**
+     *
+     */
+    public static boolean[] booleanCheck;
+    
+    //Cập nhật lại độ dài của mảng boolean
+    
+
 //Table thói quen
 
     public void Viewtable1() {
@@ -114,14 +186,51 @@ public class main extends javax.swing.JFrame {
         List<thoi_quen> thoiQuenList = ListThoiQuen.getAllThoiQuen(); // Gọi phương thức từ ListThoiQuen
         DefaultTableModel model = (DefaultTableModel) this.table_tracking.getModel(); // Giả sử bạn có một JTable tên là table_thoiquen
         model.setNumRows(0); // Xóa dữ liệu cũ
-        int n = 1; // Số thứ tự
-        for (thoi_quen tq : thoiQuenList) {
-            model.addRow(new Object[]{tq.getId(), tq.getName(), tq.getNgaybatdau(), "Đang thực hiện"});
+        for (int i = 0;i < thoiQuenList.size();i++) {
+            if(booleanCheck[i] == false){
+                model.addRow(new Object[]{thoiQuenList.get(i).getId(), thoiQuenList.get(i).getName(), thoiQuenList.get(i).getNgaybatdau(),"Chưa thực hiện"});
+                DefaultTableCellRenderer renderer = new DefaultTableCellRenderer() {
+                    @Override
+                    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+                                                                   boolean hasFocus, int row, int column) {
+                        Component cellComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                        if("Chưa thực hiện".equals(value)){
+                            cellComponent.setForeground(Color.RED); 
+                        }
+                        else{
+                            cellComponent.setForeground(Color.GREEN);
+                        }
+                        return cellComponent;
+                    }
+                };
+                table_tracking.getColumnModel().getColumn(3).setCellRenderer(renderer);
+                table_tracking.repaint();
+            }else{
+                model.addRow(new Object[]{thoiQuenList.get(i).getId(), thoiQuenList.get(i).getName(), thoiQuenList.get(i).getNgaybatdau(),"Đã hoàn thành"});
+                DefaultTableCellRenderer renderer = new DefaultTableCellRenderer() {
+                    @Override
+                    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+                                                                   boolean hasFocus, int row, int column) {
+                        Component cellComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                        if("Đã hoàn thành".equals(value)){
+                            cellComponent.setForeground(Color.GREEN); 
+                        }
+                        else{
+                            cellComponent.setForeground(Color.RED);
+                        }  
+                        return cellComponent;
+                    }
+                };
+                table_tracking.getColumnModel().getColumn(3).setCellRenderer(renderer);
+                table_tracking.repaint();
+            }
         }
-        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
-        renderer.setForeground(Color.RED); 
-
-        table_tracking.getColumnModel().getColumn(3).setCellRenderer(renderer);
+                
+//        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+//        renderer.setForeground(Color.RED); 
+//
+//        table_tracking.getColumnModel().getColumn(3).setCellRenderer(renderer);
+//        booleanCheck = new boolean[table_tracking.getRowCount()];
     }
 
     // load lại dữ liệu vào bảng
@@ -846,7 +955,8 @@ public class main extends javax.swing.JFrame {
         jP3.setVisible(false);
         jP4.setVisible(false);
         clock();
-        loadThoiQuenData1();
+//        loadThoiQuenData1();
+        
 
 //        tab5.setVisible(false);
 
@@ -957,6 +1067,18 @@ public class main extends javax.swing.JFrame {
         btn_add.setVisible(false);
         Viewtable1();
     }//GEN-LAST:event_btn_addActionPerformed
+    public boolean[] addFalseToEnd(boolean[] array) {
+    // Tạo mảng mới với kích thước lớn hơn mảng ban đầu
+        boolean[] newArray = new boolean[array.length + 1];
+
+        // Sao chép tất cả phần tử từ mảng ban đầu sang mảng mới
+        System.arraycopy(array, 0, newArray, 0, array.length);
+
+        // Gán giá trị false cho phần tử cuối cùng
+        newArray[array.length] = false;
+
+        return newArray;
+    }
 
     private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
         // TODO add your handling code here:
@@ -992,7 +1114,9 @@ public class main extends javax.swing.JFrame {
 
             // Gọi phương thức addThoiQuen chính thức mà bạn đã triển khai
             Viewtable1();
-
+            addFalseToEnd(booleanCheck);
+            writeFile();
+            loadThoiQuenData1();
             label_add.setVisible(false);
             btn_save.setVisible(false);
             btn_cancel.setVisible(false);
@@ -1011,13 +1135,30 @@ public class main extends javax.swing.JFrame {
         // Sửa thói quen
         // Hiển thị thông báo thêm thành công
 //        JOptionPane.showMessageDialog(rootPane, "Thêm thói quen thành công");
+        
 
     }//GEN-LAST:event_btn_saveActionPerformed
 
     private void mtq_textActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mtq_textActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_mtq_textActionPerformed
+    public boolean[] removeElementAt(boolean[] array, int index) {
+    // Kiểm tra chỉ số hợp lệ
+        if (index < 0 || index >= array.length) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Length: " + array.length);
+        }
 
+        // Tạo mảng mới với kích thước nhỏ hơn mảng ban đầu
+        boolean[] newArray = new boolean[array.length - 1];
+
+        // Sao chép các phần tử trước vị trí cần xóa
+        System.arraycopy(array, 0, newArray, 0, index);
+
+        // Sao chép các phần tử sau vị trí cần xóa
+        System.arraycopy(array, index + 1, newArray, index, array.length - index - 1);
+
+        return newArray;
+    }
     private void table_thoiquenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_thoiquenMouseClicked
         // TODO add your handling code here:
         JDialog dialog_ego = new JDialog();
@@ -1071,7 +1212,7 @@ public class main extends javax.swing.JFrame {
                         JOptionPane.WARNING_MESSAGE);
                 //Xoá trong list và view lại bảng
                 if (response == JOptionPane.YES_OPTION) {
-                    JOptionPane.showMessageDialog(dialog_ego, "Đã xóa!", "Thông Báo", JOptionPane.INFORMATION_MESSAGE);
+//                    JOptionPane.showMessageDialog(dialog_ego, "Đã xóa!", "Thông Báo", JOptionPane.INFORMATION_MESSAGE);
                     String mathoiquen = table_thoiquen.getValueAt(pos, 1).toString();
                     // Xoá trong CSDL
                     thoiquendelete deleteHabit = new thoiquendelete();  // Sử dụng class thoiquendelete
@@ -1083,7 +1224,9 @@ public class main extends javax.swing.JFrame {
                         }
                     }
 //                    JOptionPane.showMessageDialog(dialog_ego, "Đã xóa!", "Thông Báo", JOptionPane.INFORMATION_MESSAGE);
-
+                    removeElementAt(booleanCheck, pos);
+                    writeFile();
+                    loadThoiQuenData1();
                     dialog_ego.setVisible(false);
                     ttq_text.setText("");
                     nbd_date.setDate(null);
@@ -1093,6 +1236,7 @@ public class main extends javax.swing.JFrame {
                     nbd_date.setEnabled(false);
                     nkt_date.setEnabled(false);
                     Viewtable1();
+                    
                 } else {
                     dialog_ego.setVisible(false);
                 }
@@ -1214,38 +1358,15 @@ public class main extends javax.swing.JFrame {
         // TODO add your handling code here:
         
     int selectedRow = table_tracking.rowAtPoint(evt.getPoint());
-    int lastColumnIndex = table_tracking.getColumnCount() - 1; // Cột cuối cùng
-
-
+    
     button_check.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (selectedRow != -1) { 
-                table_tracking.setValueAt("Đã hoàn thành", selectedRow, lastColumnIndex);
-
-                DefaultTableCellRenderer renderer = new DefaultTableCellRenderer() {
-                    @Override
-                    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-                                                                   boolean hasFocus, int row, int column) {
-                        Component cellComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                        
-                        if (column == lastColumnIndex) {
-                            if ("Đã hoàn thành".equals(value)) {
-                                cellComponent.setForeground(Color.BLUE); 
-                            } else {
-                                cellComponent.setForeground(Color.RED); 
-                            }
-                        }
-                        return cellComponent;
-                    }
-                };
-
-                table_tracking.getColumnModel().getColumn(lastColumnIndex).setCellRenderer(renderer);
-
-                table_tracking.repaint();
-            } else {
-                JOptionPane.showMessageDialog(null, "Vui lòng chọn một dòng trước.");
+            if (selectedRow != -1 && booleanCheck[selectedRow] == false) { 
+                booleanCheck[selectedRow] = true;
             }
+            writeFile();
+            loadThoiQuenData1();
         }
     });
         
