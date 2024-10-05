@@ -13,7 +13,7 @@ import java.sql.SQLException;
 
 public class thoiquenedit {
 
-    private static DatabaseConfig dbconfig = new DatabaseConfig();
+    private static DatabaseConfig config = new DatabaseConfig();
 
     public void updateThoiQuen(String habit_id, String tenthoiquen, java.sql.Date ngayBatDau, java.sql.Date ngayKetThuc) {
         Connection conn = null;
@@ -21,7 +21,7 @@ public class thoiquenedit {
 
         try {
             // 1. Kết nối đến cơ sở dữ liệu
-            conn = DriverManager.getConnection(dbconfig.getUrl(), dbconfig.getUsername(), dbconfig.getPassword());
+            conn = DriverManager.getConnection(config.getUrl(), config.getUsername(), config.getPassword());
 
             // 2. Tạo câu lệnh SQL UPDATE
             String sql = "UPDATE ThoiQuen SET tenthoiquen = ?, ngayBatDau = ?, ngayKetThuc = ? WHERE habit_id = ?";

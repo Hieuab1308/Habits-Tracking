@@ -14,9 +14,10 @@ import Class.thoi_quen;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.ResultSet;
 
 public class ListThoiQuen {
-    private static DatabaseConfig dbconfig = new DatabaseConfig();
+    private static DatabaseConfig config = new DatabaseConfig();
     
     // Phương thức lấy danh sách thói quen từ CSDL
     public static List<thoi_quen> getAllThoiQuen() {
@@ -25,7 +26,7 @@ public class ListThoiQuen {
         // Câu lệnh SQL để lấy dữ liệu từ bảng ThoiQuen
         String sql = "SELECT habit_id, tenthoiquen, ngayBatDau, ngayKetThuc FROM ThoiQuen";
 
-        try (Connection conn = DriverManager.getConnection(dbconfig.getUrl(), dbconfig.getUsername(), dbconfig.getPassword());
+        try (Connection conn = DriverManager.getConnection(config.getUrl(), config.getUsername(), config.getPassword());
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 

@@ -18,7 +18,7 @@ public class taikhoanadd {
     }
 
 
-    public boolean registerUser(String email, String password) {
+    public boolean registerUser(String email, String password,String id) {
         String userID = generateRandomID();
         String role = "FALSE";
         String insertQuery = "INSERT INTO User (id, email, matkhau, role) VALUES (?, ?, ?, ?)";

@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 
 public class thoiquendelete {
 
-    private static DatabaseConfig dbconfig = new DatabaseConfig();
+    private static DatabaseConfig config = new DatabaseConfig();
 
     public void deleteThoiQuen(String id) {
         Connection conn = null;
@@ -23,7 +23,7 @@ public class thoiquendelete {
 
         try {
             // Kết nối đến cơ sở dữ liệu
-            conn = DriverManager.getConnection(dbconfig.getUrl(), dbconfig.getUsername(), dbconfig.getPassword());
+            conn = DriverManager.getConnection(config.getUrl(), config.getUsername(), config.getPassword());
 
             // Câu lệnh SQL DELETE
             String sql = "DELETE FROM ThoiQuen WHERE habit_id = ?";

@@ -4,86 +4,70 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-
+import javax.swing.JOptionPane;
 
 public class taikhoanedit {
-    private String getUserRole(String email) {
-        String query = "SELECT role FROM User WHERE email = ?";
-        try (Connection conn = ConnectDB.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setString(1, email);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                return rs.getString("role");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
-
-    private boolean verifiedCurrentPassword(String email, String currentPassword) {
-        String query = "SELECT matkhau FROM User WHERE email = ?";
-        try (Connection conn = ConnectDB.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setString(1, email);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                String storedPassword = rs.getString("password");
-                return storedPassword.equals(currentPassword);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    
-        return false;
-    }
-
-    public boolean changePassword(String currentEmail, String targetEmail, String oldPassword, String newPassword) {
-        String currentUserRole = getUserRole(currentEmail);
-        if (currentUserRole == null) {
-            System.err.println("Cannot find role of current user");
+    // Phương thức để cập nhật thông tin tài khoản
+    public boolean updateAccount(String newEmail, String newPassword, String newId) {
+        // Kiểm tra xem email mới có trùng lặp hay không
+        if (isEmailDuplicate(newEmail, newId)) {
+            JOptionPane.showMessageDialog(null, "Email đã tồn tại, vui lòng chọn email khác.");
             return false;
         }
-        if (currentUserRole.equals("TRUE")) {
-            return updatePasswordInDatabase(targetEmail, newPassword);
-        }
-        else if (currentUserRole.equals("FALSE")) {
-            if (currentEmail.equals(targetEmail)) {
-                if (verifiedCurrentPassword(currentEmail, oldPassword)) {
-                    return updatePasswordInDatabase(currentEmail, newPassword);
-                }
-                else {
-                    System.out.println("Old password is incorrect");
-                    return false;
-                }
-            }
-            else {
-                System.out.println("You do not have permission to change other users' passwords");
-                return false;
-            }
-        }
-        System.out.println("Error: Unknown role");
-        return false;
+        
+        // Nếu không trùng, tiến hành cập nhật
+        return updateAccountInDatabase(newEmail, newPassword, newId);
     }
 
-    private boolean updatePasswordInDatabase(String email, String newPassword) {
-        String updateQuery = "UPDATE User SET matkhau = ? WHERE email = ?";
-        try (Connection conn = ConnectDB.getConnection(); PreparedStatement pstmt = conn.prepareStatement(updateQuery)) {
-            pstmt.setString(1, newPassword);
-            pstmt.setString(2, email);
-            int rowsAffected = pstmt.executeUpdate();
-            if (rowsAffected > 0) {
-                System.out.println("Password updated successfully.");
-                return true;
-            } else {
-                System.out.println("No account found with the given username.");
+    // Phương thức kiểm tra trùng lặp email
+    private boolean isEmailDuplicate(String newEmail, String newId) {
+        String checkQuery = "SELECT COUNT(*) FROM User WHERE email = ? AND id != ?";
+
+        try (Connection conn = ConnectDB.getConnection(); 
+             PreparedStatement pstmt = conn.prepareStatement(checkQuery)) {
+
+            pstmt.setString(1, newEmail);
+            pstmt.setString(2, newId);
+
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next() && rs.getInt(1) > 0) {
+                return true; // Email đã tồn tại trong hệ thống
             }
         } catch (SQLException e) {
             e.printStackTrace();
+//            JOptionPane.showMessageDialog(null, "Lỗi xảy ra khi kiểm tra email.");
         }
+
+        return false; // Email không trùng lặp
+    }
+
+    // Phương thức cập nhật cơ sở dữ liệu
+    private boolean updateAccountInDatabase(String newEmail, String newPassword, String newId) {
+        String updateQuery = "UPDATE User SET email = ?, matkhau = ? WHERE id = ?";
+
+        try (Connection conn = ConnectDB.getConnection(); 
+             PreparedStatement pstmt = conn.prepareStatement(updateQuery)) {
+
+            // Gán giá trị vào các tham số PreparedStatement
+            pstmt.setString(1, newEmail);
+            pstmt.setString(2, newPassword);
+            pstmt.setString(3, newId);
+
+            // Thực thi câu truy vấn cập nhật
+            int rowsAffected = pstmt.executeUpdate();
+
+            if (rowsAffected > 0) {
+//                JOptionPane.showMessageDialog(null, "Cập nhật tài khoản thành công.");
+                return true;
+            } else {
+//                JOptionPane.showMessageDialog(null, "Không có thay đổi nào được thực hiện.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+//            JOptionPane.showMessageDialog(null, "Lỗi xảy ra khi cập nhật tài khoản.");
+        }
+
         return false;
     }
 }

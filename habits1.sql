@@ -2,6 +2,7 @@
 CREATE DATABASE thoiquen;
 USE thoiquen;
 
+
 -- Bảng User
 CREATE TABLE User (
     id VARCHAR(50) PRIMARY KEY,         -- id là String
@@ -49,6 +50,23 @@ CREATE TABLE NhacNho (
     loaiThongBao VARCHAR(50) NOT NULL,
     FOREIGN KEY (habit_id) REFERENCES ThoiQuen(habit_id)
 );
+
+-- Thay đổi các ràng buộc khóa ngoại trong bảng TheoDoiThoiQuen
+ALTER TABLE TheoDoiThoiQuen
+DROP FOREIGN KEY TheoDoiThoiQuen_ibfk_1;  -- tên ràng buộc khóa ngoại hiện tại
+
+ALTER TABLE TheoDoiThoiQuen
+ADD CONSTRAINT TheoDoiThoiQuen_ibfk_1
+FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE;
+
+-- Thay đổi các ràng buộc khóa ngoại trong bảng ThongKe
+ALTER TABLE ThongKe
+DROP FOREIGN KEY ThongKe_ibfk_1;  -- tên ràng buộc khóa ngoại hiện tại
+
+ALTER TABLE ThongKe
+ADD CONSTRAINT ThongKe_ibfk_1
+FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE;
+
 -- Chèn dữ liệu vào bảng User
 INSERT INTO User (id, email, matkhau, role)
 VALUES ('u001', 'than@gmail.com', '123', FALSE),

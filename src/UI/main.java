@@ -1093,7 +1093,7 @@ public class main extends javax.swing.JFrame {
         label_add.setVisible(true);
         mtq_text.setEditable(true);
         ttq_text.setEditable(true);
-        mota_text.setEditable(true);
+        mota_text.setEditable(false);
         nbd_date.setEnabled(true);
         nkt_date.setEnabled(true);
 

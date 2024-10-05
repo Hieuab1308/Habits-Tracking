@@ -10,7 +10,7 @@ import java.sql.Date;
 
 public class thoiquenadd {
 
-    private static DatabaseConfig dbconfig = new DatabaseConfig();
+    private static DatabaseConfig config = new DatabaseConfig();
 
     // Kiểm tra xem habit_id đã tồn tại hay chưa
     private boolean isHabitIdExist(String habitId) {
@@ -19,7 +19,7 @@ public class thoiquenadd {
         ResultSet rs = null;
 
         try {
-            conn = DriverManager.getConnection(dbconfig.getUrl(), dbconfig.getUsername(), dbconfig.getPassword());
+            conn = DriverManager.getConnection(config.getUrl(), config.getUsername(), config.getPassword());
             String checkSql = "SELECT habit_id FROM ThoiQuen WHERE habit_id = ?";
             pstmt = conn.prepareStatement(checkSql);
             pstmt.setString(1, habitId);
@@ -54,7 +54,7 @@ public class thoiquenadd {
             }
 
             // 2. Kết nối đến cơ sở dữ liệu
-            conn = DriverManager.getConnection(dbconfig.getUrl(), dbconfig.getUsername(), dbconfig.getPassword());
+            conn = DriverManager.getConnection(config.getUrl(), config.getUsername(), config.getPassword());
 
             // 3. Tạo câu lệnh SQL INSERT
             String sql = "INSERT INTO ThoiQuen (habit_id, tenthoiquen, ngayBatDau, ngayKetThuc) " +

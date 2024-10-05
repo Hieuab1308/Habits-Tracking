@@ -2,66 +2,49 @@ package manageSQL;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-
-
-
 
 public class taikhoandelete {
 
-    private String getUserRole(String email) {
-        String query = "SELECT role FROM User WHERE email = ?";
-        try (Connection conn = ConnectDB.getConnection();  // Use ConnectDB class to connect to DB
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
-            pstmt.setString(1, email);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                return rs.getString("role");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null; // Return null if no role is found or an exception occurs
+    // Phương thức này trả về boolean để kiểm tra
+    public boolean deleteAccount(String targetEmail) {
+        return deleteAccountFromDatabase(targetEmail);
     }
 
-    // public boolean deleteAccount(String currentEmail, String targetEmail) {
-    //     String currentUserRole = getUserRole(currentEmail);
-    //     if (currentUserRole == null) {
-    //         System.err.println("Cannot find role of current user");
-    //         return false;
-    //     }
-    //     if (currentUserRole.equals("TRUE")) {
-    //         return deleteAccountFromDatabase(targetEmail);
-    //     }
-    //     else if (currentUserRole.equals("FALSE")) {
-    //         if (currentEmail.equals(targetEmail)) {
-    //             return deleteAccountFromDatabase(currentEmail);
-    //         }
-    //         else {
-    //             System.out.println("You do not have permission to delete other users");
-    //             return false;
-    //         }
-    //     }
-    //     System.out.println("Error: Unknown role");
-    //     return false;
-    // }
-
+    // Phương thức này thực hiện xóa tài khoản khỏi database và trả về boolean
     private boolean deleteAccountFromDatabase(String targetEmail) {
-        String deleteQuery = "DELETE FROM users WHERE email = ?";
-        try (Connection conn = ConnectDB.getConnection();  // Sử dụng lớp ConnectDB để kết nối DB
-             PreparedStatement pstmt = conn.prepareStatement(deleteQuery)) {
-            pstmt.setString(1, targetEmail);
-            int rowsAffected = pstmt.executeUpdate();
-            if (rowsAffected > 0) {
-                System.out.println("Account deleted successfully.");
-                return true;
-            } else {
-                System.out.println("No account found with the given email.");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
+    // Bước 1: Xóa các bản ghi liên quan trong bảng theodoithoiquen
+    String deleteRelatedQuery = "DELETE FROM theodoithoiquen WHERE user_id = (SELECT id FROM User WHERE email = ?)";
+    
+    try (Connection conn = ConnectDB.getConnection();  
+         PreparedStatement pstmt1 = conn.prepareStatement(deleteRelatedQuery)) {
+         
+        pstmt1.setString(1, targetEmail);
+        pstmt1.executeUpdate();  // Xóa bản ghi liên quan
+
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;  // Lỗi xảy ra khi xóa bản ghi liên quan
     }
+
+    // Bước 2: Xóa tài khoản trong bảng User
+    String deleteQuery = "DELETE FROM User WHERE email = ?";
+    
+    try (Connection conn = ConnectDB.getConnection();  
+         PreparedStatement pstmt2 = conn.prepareStatement(deleteQuery)) {
+         
+        pstmt2.setString(1, targetEmail);
+        int rowsAffected = pstmt2.executeUpdate();
+        
+        if (rowsAffected > 0) {
+            return true;  // Xóa thành công
+        } else {
+            return false;  // Không tìm thấy tài khoản để xóa
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;  // Lỗi xảy ra
+    }
+}
+
 }

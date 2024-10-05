@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import manageSQL.Register;
 
 /**
  *
@@ -42,8 +43,6 @@ public class DangKy extends javax.swing.JFrame {
         textFieldTK = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         passwordLoginMK = new javax.swing.JPasswordField();
-        comboBoxLoginVaiTro = new javax.swing.JComboBox<>();
-        jLabel6 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
 
@@ -77,17 +76,6 @@ public class DangKy extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setText("Mật khẩu");
 
-        comboBoxLoginVaiTro.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        comboBoxLoginVaiTro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "User" }));
-        comboBoxLoginVaiTro.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboBoxLoginVaiTroActionPerformed(evt);
-            }
-        });
-
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel6.setText("Vai trò");
-
         jButton1.setBackground(new java.awt.Color(102, 255, 255));
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton1.setText("Đăng Ký");
@@ -116,8 +104,6 @@ public class DangKy extends javax.swing.JFrame {
                         .addGap(25, 25, 25)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(comboBoxLoginVaiTro, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -129,20 +115,16 @@ public class DangKy extends javax.swing.JFrame {
                                 .addComponent(textFieldTK, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(passwordLoginMK, javax.swing.GroupLayout.Alignment.LEADING))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(73, 73, 73)
+                        .addGap(83, 83, 83)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(62, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(42, 42, 42)
+                .addGap(103, 103, 103)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(37, 37, 37)
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(comboBoxLoginVaiTro, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(58, 58, 58)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(textFieldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -180,59 +162,41 @@ public class DangKy extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private boolean isValidEmail(String email) {
+        
+        return email.endsWith("@gmail.com");
+    }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String role = (String) comboBoxLoginVaiTro.getSelectedItem();
         String ID = textFieldTK.getText();
         char[] password = passwordLoginMK.getPassword();
         String passwordStr = new String(password);
         String email = textFieldEmail.getText();
-        
-        if(ID.equals("") || passwordStr.equals("")){
-            JOptionPane.showMessageDialog(null, "Nhập tài khoản, mật khẩu!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        if (!isValidEmail(email)) {
+            JOptionPane.showMessageDialog(rootPane, "Email phải có định dạng @gmail.com", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
         }
-        else{
-            user userLogin = new user();
-            userLogin.setEmail(email);
-            userLogin.setId(ID);
-            userLogin.setPass(passwordStr);
-        
-            if(role.equals("User")){
-                userLogin.setRole(false);
-                boolean kt = manageSQL.checkdangky.check(userLogin);
-                if(kt){
-                    this.dispose();
-                    new Dangnhap(userLogin).setVisible(true);
-                }
-            else{
-                JOptionPane.showMessageDialog(null, "Sai tài khoản, mật khẩu!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        if (ID.equals("") || passwordStr.equals("") || email.equals("")) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin tài khoản, mật khẩu và email!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        } else {
+            
+            user userRegister = new user();
+            userRegister.setEmail(email);
+            userRegister.setId(ID);
+            userRegister.setPass(passwordStr);
+            userRegister.setRole(false); 
 
-                }
-            }   
-            else if(role.equals("User")){
-                userLogin.setRole(true);
-                boolean kt = manageSQL.checkdangky.check(userLogin);
-                if(manageSQL.checkdangky.check(userLogin)){
-                    this.dispose();
-                    new Dangnhap(userLogin).setVisible(true);
-                }
-                else if(manageSQL.checkdangky.check(userLogin)){
-                    JOptionPane.showMessageDialog(null, "Bạn không có quyền truy cập vào tổ chức", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                }
-                else{
-                    JOptionPane.showMessageDialog(null, "Sai Tài khoản, Mật khẩu", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-            else{
-                if(ID.equals("admin") && passwordStr.equals("admin")&& email.equals("admin@gmail.com")){
-                    this.dispose();
-                    new Dangnhap(userLogin).setVisible(true);
-                }
-                else{
-                    JOptionPane.showMessageDialog(null, "Sai tài khoản, mật khẩu!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                }
+            
+            boolean success = Register.registerUser(userRegister);
+
+       
+            if (success) {
+                JOptionPane.showMessageDialog(null, "Đăng ký thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                this.setVisible(false);
+                 new Dangnhap(userLogin).setVisible(true);
             }
         }
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
@@ -240,10 +204,6 @@ public class DangKy extends javax.swing.JFrame {
         this.dispose();
         new Dangnhap(userLogin).setVisible(true);
     }//GEN-LAST:event_jButton2MouseClicked
-
-    private void comboBoxLoginVaiTroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxLoginVaiTroActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_comboBoxLoginVaiTroActionPerformed
 
     /**
      * @param args the command line arguments
@@ -281,7 +241,6 @@ public class DangKy extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> comboBoxLoginVaiTro;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
@@ -289,7 +248,6 @@ public class DangKy extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField passwordLoginMK;
