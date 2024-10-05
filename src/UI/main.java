@@ -4,9 +4,12 @@ import java.util.List;
 import java.util.ArrayList;
 import Class.thoi_quen;
 import Class.user;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileInputStream;
@@ -29,6 +32,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import manageSQL.thoiquenadd;
 import java.util.Date;
+import java.util.HashMap;
 import javax.swing.table.DefaultTableCellRenderer;
 import manageSQL.ListThoiQuen;
 import manageSQL.thoiquendelete;
@@ -46,21 +50,39 @@ public class main extends javax.swing.JFrame {
         initComponents();
         loadThoiQuenData();
         setLocationRelativeTo(null);
+        booleanCheck = new boolean[100];
         openFile();
         loadThoiQuenData1();
         lastDate = currentDate;
         currentDate = LocalDate.now();
-        
+        countDate1 = new HashMap();
+        countDate2 = new HashMap();
         if(!currentDate.equals(lastDate)){
+           for(int i = 0;i < thoiquen.size();i++){
+               if(booleanCheck[i]==true){
+                   if(countDate1.containsKey(thoiquen.get(i).getId())){
+                       countDate1.put(thoiquen.get(i).getId(),countDate1.get(thoiquen.get(i).getId())+1);
+                   }else{
+                       countDate1.put(thoiquen.get(i).getId(),1);
+                   }   
+               }else{
+                   if(countDate2.containsKey(thoiquen.get(i).getId())){
+                       countDate2.put(thoiquen.get(i).getId(),countDate2.get(thoiquen.get(i).getId())+1);
+                   }else{
+                       countDate2.put(thoiquen.get(i).getId(),1);
+                   }
+               }
+           }
            Arrays.fill(booleanCheck,false);
         }
 //        Arrays.fill(booleanCheck,false);
         loadThoiQuenData1();
+        //ViewTable3();
         jP1.setVisible(true);
         jP2.setVisible(false);
         jP3.setVisible(false);
         jP4.setVisible(false);
-
+        
         // set nhãn và textfield khồng được dùng khi mới khởi tạo
         label_add.setVisible(false);
         label_fix.setVisible(false);
@@ -86,6 +108,8 @@ public class main extends javax.swing.JFrame {
             ois = new ObjectInputStream(fis);
             booleanCheck = (boolean[]) ois.readObject();
             currentDate = (LocalDate) ois.readObject();
+            countDate1 = (HashMap) ois.readObject();
+            countDate2 = (HashMap) ois.readObject();
         }catch(FileNotFoundException e){
         } 
         catch (Exception e) {
@@ -109,6 +133,9 @@ public class main extends javax.swing.JFrame {
             oos = new ObjectOutputStream(fos);
             oos.writeObject(booleanCheck);
             oos.writeObject(currentDate);
+            oos.writeObject(countDate1);
+            oos.writeObject(countDate2);
+            
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -149,13 +176,12 @@ public class main extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     List<thoi_quen> thoiquen = ListThoiQuen.getAllThoiQuen();
+    HashMap<String,Integer> countDate1 = new HashMap<>();
+    HashMap<String,Integer> countDate2 = new HashMap<>();
     public static int stt = -1;
     public static LocalDate lastDate;
     public static LocalDate currentDate;
 
-    /**
-     *
-     */
     public static boolean[] booleanCheck;
     
     //Cập nhật lại độ dài của mảng boolean
@@ -180,8 +206,15 @@ public class main extends javax.swing.JFrame {
         for(thoi_quen x : thoiquen){
             model2.addRow(new Object[]{ x.getId(), x.getName(), x.getNgaybatdau(), "Đang thực hiện"});
         }
-        
 }
+    public void ViewTable3(){
+        DefaultTableModel model23 =(DefaultTableModel) this.jTable3.getModel();
+        model23.setNumRows(0);
+        int n =1;
+        for(thoi_quen x : thoiquen){
+            model23.addRow(new Object[]{ x.getId(), x.getName(), countDate1.get(x.getId()),countDate2.get(x.getId()),countDate1.get(x.getId())+countDate2.get(x.getId())});
+        }
+    }
      private void loadThoiQuenData1() {
         List<thoi_quen> thoiQuenList = ListThoiQuen.getAllThoiQuen(); // Gọi phương thức từ ListThoiQuen
         DefaultTableModel model = (DefaultTableModel) this.table_tracking.getModel(); // Giả sử bạn có một JTable tên là table_thoiquen
@@ -204,7 +237,6 @@ public class main extends javax.swing.JFrame {
                     }
                 };
                 table_tracking.getColumnModel().getColumn(3).setCellRenderer(renderer);
-                table_tracking.repaint();
             }else{
                 model.addRow(new Object[]{thoiQuenList.get(i).getId(), thoiQuenList.get(i).getName(), thoiQuenList.get(i).getNgaybatdau(),"Đã hoàn thành"});
                 DefaultTableCellRenderer renderer = new DefaultTableCellRenderer() {
@@ -222,9 +254,12 @@ public class main extends javax.swing.JFrame {
                     }
                 };
                 table_tracking.getColumnModel().getColumn(3).setCellRenderer(renderer);
-                table_tracking.repaint();
+            
+                
             }
+            table_tracking.repaint();
         }
+        
                 
 //        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
 //        renderer.setForeground(Color.RED); 
@@ -687,7 +722,7 @@ public class main extends javax.swing.JFrame {
                         .addComponent(btn_add, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(27, 27, 27)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 598, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jP1Layout.setVerticalGroup(
             jP1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -864,7 +899,7 @@ public class main extends javax.swing.JFrame {
         jP3.setLayout(jP3Layout);
         jP3Layout.setHorizontalGroup(
             jP3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1116, Short.MAX_VALUE)
+            .addGap(0, 1875, Short.MAX_VALUE)
         );
         jP3Layout.setVerticalGroup(
             jP3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -877,40 +912,40 @@ public class main extends javax.swing.JFrame {
 
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Mã thói quen", "Tên thói quen", "Số ngày hoạt động", "Số ngày bỏ qua", "Tổng ngày"
             }
         ));
         jScrollPane3.setViewportView(jTable3);
 
-        jLabel12.setText("jLabel12");
+        jLabel12.setText("Thống kê");
 
         javax.swing.GroupLayout jP4Layout = new javax.swing.GroupLayout(jP4);
         jP4.setLayout(jP4Layout);
         jP4Layout.setHorizontalGroup(
             jP4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jP4Layout.createSequentialGroup()
-                .addGap(542, 542, 542)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 568, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jP4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(162, 162, 162))
+                .addGroup(jP4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jP4Layout.createSequentialGroup()
+                        .addGap(118, 118, 118)
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jP4Layout.createSequentialGroup()
+                        .addGap(110, 110, 110)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 630, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(1135, Short.MAX_VALUE))
         );
         jP4Layout.setVerticalGroup(
             jP4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jP4Layout.createSequentialGroup()
-                .addContainerGap(10, Short.MAX_VALUE)
+                .addContainerGap(22, Short.MAX_VALUE)
                 .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 541, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12))
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 541, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jPanel2.add(jP4);
@@ -1002,7 +1037,7 @@ public class main extends javax.swing.JFrame {
         jP4.setVisible(false);
         Viewtable2();
         loadThoiQuenData1();
-//        tab5.setVisible(false);
+//      tab5.setVisible(false);
     }//GEN-LAST:event_tab2MouseClicked
 
     private void tab3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tab3MouseClicked
@@ -1152,10 +1187,12 @@ public class main extends javax.swing.JFrame {
         boolean[] newArray = new boolean[array.length - 1];
 
         // Sao chép các phần tử trước vị trí cần xóa
-        System.arraycopy(array, 0, newArray, 0, index);
-
-        // Sao chép các phần tử sau vị trí cần xóa
-        System.arraycopy(array, index + 1, newArray, index, array.length - index - 1);
+        for(int i = 0;i < index;i++){
+            newArray[i] = array[i];
+        }
+        for(int i = index+1;i < array.length;i++){
+            newArray[i-1] = array[i];
+        }
 
         return newArray;
     }
@@ -1224,7 +1261,15 @@ public class main extends javax.swing.JFrame {
                         }
                     }
 //                    JOptionPane.showMessageDialog(dialog_ego, "Đã xóa!", "Thông Báo", JOptionPane.INFORMATION_MESSAGE);
-                    removeElementAt(booleanCheck, pos);
+                    System.out.println(pos);
+                    booleanCheck = removeElementAt(booleanCheck, pos);
+                    for(boolean x : booleanCheck){
+                        System.out.println(x);
+                    }
+                    
+                    countDate1.remove(mathoiquen);
+                    countDate2.remove(mathoiquen);
+                    Viewtable1();
                     writeFile();
                     loadThoiQuenData1();
                     dialog_ego.setVisible(false);
@@ -1235,7 +1280,7 @@ public class main extends javax.swing.JFrame {
                     ttq_text.setEditable(false);
                     nbd_date.setEnabled(false);
                     nkt_date.setEnabled(false);
-                    Viewtable1();
+                    
                     
                 } else {
                     dialog_ego.setVisible(false);
@@ -1357,22 +1402,23 @@ public class main extends javax.swing.JFrame {
     private void table_trackingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_trackingMouseClicked
         // TODO add your handling code here:
         
-    int selectedRow = table_tracking.rowAtPoint(evt.getPoint());
-    
-    button_check.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (selectedRow != -1 && booleanCheck[selectedRow] == false) { 
-                booleanCheck[selectedRow] = true;
+        int selectedRow = table_tracking.rowAtPoint(evt.getPoint());
+
+        button_check.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (selectedRow != -1 && booleanCheck[selectedRow] == false) { 
+                    booleanCheck[selectedRow] = true;
+                }
+                writeFile();
+                loadThoiQuenData1();
             }
-            writeFile();
-            loadThoiQuenData1();
-        }
-    });
+        });
         
 
     }//GEN-LAST:event_table_trackingMouseClicked
 
+     
     /**
      * @param args the command line arguments
      */
