@@ -3,24 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/C:/Users/Hello/Documents/NetBeansProjects/Habits-Tracking/src/Class/thoi_quen.java</file>
-            <file>file:/C:/Users/Hello/Documents/NetBeansProjects/Habits-Tracking/src/UI/main.java</file>
-            <file>file:/C:/Users/Hello/Documents/NetBeansProjects/Habits-Tracking/src/manageSQL/config.properties</file>
-            <file>file:/C:/Users/Hello/Documents/NetBeansProjects/Habits-Tracking/src/Class/Nhacnho.java</file>
-=======
-<<<<<<< HEAD
-            <file>file:/C:/Users/HIEU/codejava/test/Habits-Tracking/src/manageSQL/taikhoandelete.java</file>
-            <file>file:/C:/Users/HIEU/codejava/test/Habits-Tracking/src/UI/main.java</file>
-            <file>file:/C:/Users/HIEU/codejava/test/Habits-Tracking/src/manageSQL/thoiquenadd.java</file>
-            <file>file:/C:/Users/HIEU/codejava/test/Habits-Tracking/src/manageSQL/Listtaikhoan.java</file>
-            <file>file:/C:/Users/HIEU/codejava/test/Habits-Tracking/src/manageSQL/taikhoanedit.java</file>
-            <file>file:/C:/Users/HIEU/codejava/test/Habits-Tracking/src/UI/Admin.java</file>
-=======
-            <file>file:/C:/Users/Hello/Documents/NetBeansProjects/Habits-Tracking/src/UI/main.java</file>
-            <file>file:/C:/Users/Hello/Documents/NetBeansProjects/Habits-Tracking/src/manageSQL/config.properties</file>
->>>>>>> 4aed530ac74fd2fddeeb62723c526e4a47c50b8d
->>>>>>> 79a328ac4f2d530dd90fa8af2b8b7560a0868d95
+            <file>file:/C:/Users/HIEU/codejava/thoiquen/Habits-Tracking/src/UI/Admin.java</file>
+            <file>file:/C:/Users/HIEU/codejava/thoiquen/Habits-Tracking/src/UI/Dangnhap.java</file>
+            <file>file:/C:/Users/HIEU/codejava/thoiquen/Habits-Tracking/src/UI/main.java</file>
+            <file>file:/C:/Users/HIEU/codejava/thoiquen/Habits-Tracking/src/UI/DangKy.java</file>
         </group>
     </open-files>
 </project-private>

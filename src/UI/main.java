@@ -8,6 +8,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -55,10 +56,14 @@ public class main extends javax.swing.JFrame {
         loadThoiQuenData1();
         lastDate = currentDate;
         currentDate = LocalDate.now();
-        countDate1 = new HashMap();
-        countDate2 = new HashMap();
+        if (countDate1 == null) {
+            countDate1 = new HashMap<>();
+        }
+        if (countDate2 == null) {
+            countDate2 = new HashMap<>();
+        }
         if(!currentDate.equals(lastDate)){
-           for(int i = 0;i < thoiquen.size();i++){
+            for(int i = 0;i < thoiquen.size();i++){
                if(booleanCheck[i]==true){
                    if(countDate1.containsKey(thoiquen.get(i).getId())){
                        countDate1.put(thoiquen.get(i).getId(),countDate1.get(thoiquen.get(i).getId())+1);
@@ -75,9 +80,10 @@ public class main extends javax.swing.JFrame {
            }
            Arrays.fill(booleanCheck,false);
         }
+       
 //        Arrays.fill(booleanCheck,false);
         loadThoiQuenData1();
-        //ViewTable3();
+        ViewTable3();
         jP1.setVisible(true);
         jP2.setVisible(false);
         jP3.setVisible(false);
@@ -207,14 +213,26 @@ public class main extends javax.swing.JFrame {
             model2.addRow(new Object[]{ x.getId(), x.getName(), x.getNgaybatdau(), "Đang thực hiện"});
         }
 }
-    public void ViewTable3(){
-        DefaultTableModel model23 =(DefaultTableModel) this.jTable3.getModel();
-        model23.setNumRows(0);
-        int n =1;
-        for(thoi_quen x : thoiquen){
-            model23.addRow(new Object[]{ x.getId(), x.getName(), countDate1.get(x.getId()),countDate2.get(x.getId()),countDate1.get(x.getId())+countDate2.get(x.getId())});
+    public void ViewTable3() {
+        DefaultTableModel model23 = (DefaultTableModel) this.jTable3.getModel();
+        model23.setNumRows(0); // Đặt lại số dòng trong bảng về 0
+
+        for (thoi_quen x : thoiquen) {
+            // Lấy giá trị từ countDate1 và countDate2 với phương thức getOrDefault
+            Integer count1 = countDate1.getOrDefault(x.getId(), 0); // Nếu không có thì trả về 0
+            Integer count2 = countDate2.getOrDefault(x.getId(), 0); // Nếu không có thì trả về 0
+
+            // Thêm dòng mới vào bảng
+            model23.addRow(new Object[]{
+                x.getId(),
+                x.getName(),
+                count1, // Sử dụng giá trị từ countDate1
+                count2, // Sử dụng giá trị từ countDate2
+                count1 + count2 // Tổng giá trị
+            });
         }
     }
+
      private void loadThoiQuenData1() {
         List<thoi_quen> thoiQuenList = ListThoiQuen.getAllThoiQuen(); // Gọi phương thức từ ListThoiQuen
         DefaultTableModel model = (DefaultTableModel) this.table_tracking.getModel(); // Giả sử bạn có một JTable tên là table_thoiquen
@@ -764,7 +782,7 @@ public class main extends javax.swing.JFrame {
                     .addComponent(btn_cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(11, 11, 11)
                 .addComponent(btn_add, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(184, Short.MAX_VALUE))
+                .addContainerGap(93, Short.MAX_VALUE))
             .addGroup(jP1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1)
@@ -894,6 +912,16 @@ public class main extends javax.swing.JFrame {
         jPanel2.add(jP2);
 
         jP3.setBackground(new java.awt.Color(255, 255, 255));
+        jP3.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                jP3AncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+                jP3AncestorMoved(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
 
         javax.swing.GroupLayout jP3Layout = new javax.swing.GroupLayout(jP3);
         jP3.setLayout(jP3Layout);
@@ -923,6 +951,9 @@ public class main extends javax.swing.JFrame {
         ));
         jScrollPane3.setViewportView(jTable3);
 
+        jLabel12.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(255, 0, 51));
         jLabel12.setText("Thống kê");
 
         javax.swing.GroupLayout jP4Layout = new javax.swing.GroupLayout(jP4);
@@ -930,22 +961,21 @@ public class main extends javax.swing.JFrame {
         jP4Layout.setHorizontalGroup(
             jP4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jP4Layout.createSequentialGroup()
-                .addGroup(jP4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jP4Layout.createSequentialGroup()
-                        .addGap(118, 118, 118)
-                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jP4Layout.createSequentialGroup()
-                        .addGap(110, 110, 110)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 630, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(1135, Short.MAX_VALUE))
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 949, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 926, Short.MAX_VALUE))
+            .addGroup(jP4Layout.createSequentialGroup()
+                .addGap(383, 383, 383)
+                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jP4Layout.setVerticalGroup(
             jP4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jP4Layout.createSequentialGroup()
-                .addContainerGap(22, Short.MAX_VALUE)
-                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 541, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(16, Short.MAX_VALUE)
+                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 541, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jPanel2.add(jP4);
@@ -1003,6 +1033,48 @@ public class main extends javax.swing.JFrame {
         jP3.setVisible(true);
         jP4.setVisible(false);
 
+// Tạo JDialog
+        JDialog dialog_eg = new JDialog();
+        dialog_eg.setSize(250, 110);
+        dialog_eg.setTitle("Tính năng đang cập nhật");
+        dialog_eg.setLayout(new BorderLayout());
+
+// Thêm thông điệp vào JDialog
+        JLabel messageLabel = new JLabel("Tính năng đang cập nhật!", JLabel.CENTER);
+        messageLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+        dialog_eg.add(messageLabel, BorderLayout.NORTH);
+
+// Tạo panel chứa các nút
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+
+// Tạo hai nút "OK" và "Canny"
+        JButton okButton = new JButton("OK");
+        JButton cannyButton = new JButton("Canny");
+
+// Thêm các nút vào buttonPanel
+        buttonPanel.add(okButton);
+        buttonPanel.add(cannyButton);
+
+// Thêm buttonPanel vào JDialog ở phần dưới
+        dialog_eg.add(buttonPanel, BorderLayout.SOUTH);
+
+// Định nghĩa hành động cho các nút
+        ActionListener closeAction = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Đóng JDialog
+                dialog_eg.dispose();
+            }
+        };
+
+// Gán hành động cho cả hai nút
+        okButton.addActionListener(closeAction);
+        cannyButton.addActionListener(closeAction);
+
+// Hiển thị JDialog
+        dialog_eg.setLocationRelativeTo(null); // Hiển thị ở giữa màn hình
+        dialog_eg.setVisible(true);
 //        tab5.setVisible(false);
         // TODO add your handling code here:
     }//GEN-LAST:event_jLabel3MouseClicked
@@ -1417,6 +1489,15 @@ public class main extends javax.swing.JFrame {
         
 
     }//GEN-LAST:event_table_trackingMouseClicked
+
+    private void jP3AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jP3AncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jP3AncestorAdded
+
+    private void jP3AncestorMoved(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jP3AncestorMoved
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jP3AncestorMoved
 
      
     /**
